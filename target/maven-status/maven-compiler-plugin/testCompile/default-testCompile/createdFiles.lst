@@ -1,0 +1,4 @@
+com\qualityhouse\serenity\steps\definitions\BookingStepDefinitions.class
+com\qualityhouse\serenity\steps\libraries\BookingActions.class
+com\qualityhouse\serenity\steps\libraries\BaseActions.class
+com\qualityhouse\serenity\TestRunner.class
