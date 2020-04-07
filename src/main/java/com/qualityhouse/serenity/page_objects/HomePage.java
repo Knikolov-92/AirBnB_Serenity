@@ -11,18 +11,30 @@ public class HomePage extends PageObject {
 
     public final static By CALENDAR_DAY_PICK_LOCATOR =
             By.xpath("//*[@aria-label='Календар']/div[2]/div/div[2]/div/table/tbody/tr/td[@class]");
+    public final static By CALENDAR_MONTH_YEAR_TEXT_LOCATOR =
+            By.xpath("//*[@aria-label='Календар']/div[2]/div/div[2]/div/div/strong");
+    public final static By GUESTS_TYPE_PICK_LOCATOR =
+            By.cssSelector("._mke2gl1 div._1p3joamp");
+    public final static By GUESTS_ADD_BUTTON_LOCATOR =
+            By.cssSelector("._1a72ixey [type='button']._1iz654np");
 
     @FindBy(name = "query")
     public WebElementFacade whereInputField;
 
-    @FindBy(css = "label._rin72m")
+    @FindBy(name = "checkin")
     public WebElementFacade checkInDate;
 
     @FindBy(name = "checkout")
     public WebElementFacade checkOutDate;
 
+    @FindBy(id = "lp-guestpicker")
+    public WebElementFacade guestsPickButton;
+
+    @FindBy(css = "[type='button']._b0ybw8s")
+    public WebElementFacade guestsSaveButton;
+
+    @FindBy(css = "._1r868w ._1vs0x720")
+    public WebElementFacade bookingSearchButton;
+
 }
-//*[@aria-label='Календар']/div[2]/div/div[2]/div/table/tbody/tr/td[@class]
-//*[@aria-label='Календар']
-//div[@class='_gucugi']/strong[text()='April 2020']
-//*[@id="FMP-target"]/div/div[1]/div/div/div/div/div[1]/div[2]/div/form/div[2]/div/div/div/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[2]/div/table/tbody/tr/td[@class]
+//*[@aria-label='Календар']/div[2]/div/div[2]/div/div/strong

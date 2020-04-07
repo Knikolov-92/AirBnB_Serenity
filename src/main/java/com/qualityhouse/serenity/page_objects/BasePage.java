@@ -1,4 +1,8 @@
 package com.qualityhouse.serenity.page_objects;
 
-public class BasePage {
+import net.serenitybdd.core.pages.PageObject;
+
+public class BasePage extends PageObject {
+
+
 }

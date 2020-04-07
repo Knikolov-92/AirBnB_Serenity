@@ -154,7 +154,7 @@
             <a href="576946480b52ad056d6f5bddf874399c83582ecf90963cc074a14c70580e7d9f.html"><i class="fa fa-comments-o"></i> Features</a>
         </li>
     </ul>
-    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 06-04-2020 19:59</span>
+    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 07-04-2020 19:51</span>
     <br style="clear:left"/>
 </div>
 
@@ -213,29 +213,69 @@
 
     <div class="story-title">
         <h3>Scenario:</h3>
-        <div class="scenario">Given John is on the Home page<br>And John submits booking options:<br><table class='embedded'><thead><th>where</th><th>check-In_in</th><th>check-Out_in</th><th>adults</th><th>kids</th><th>babies</th></thead><tbody><tr><td>&lt;where&gt;</td><td>&lt;check-In_in&gt;</td><td>&lt;check-Out_in&gt;</td><td>&lt;adults&gt;</td><td>&lt;kids&gt;</td><td>&lt;babies&gt;</td></tr></tbody></table><br>Then John should see the offers for the location<br>When John filters his preferences<br>And John picks the first 5-star-place<br>Then John should see the summary of the reservation</div>
+        <div class="scenario">Given John is on the Home page<br>And John submits booking options:<br><table class='embedded'><thead><th>where</th><th>check-In_in</th><th>check-Out_in</th><th>adults</th><th>kids</th><th>babies</th></thead><tbody><tr><td>&lt;where&gt;</td><td>&lt;check-In_in&gt;</td><td>&lt;check-Out_in&gt;</td><td>&lt;adults&gt;</td><td>&lt;kids&gt;</td><td>&lt;babies&gt;</td></tr></tbody></table><br>Then John should see the offers for the location: "&lt;where&gt;"<br>When John selects a currency "&lt;currency&gt;"<br>And John filters his preferences:<br><table class='embedded'><thead><th>price_min</th><th>price_max</th><th>bathroom</th><th>air_conditioner</th><th>hot_tube</th></thead><tbody><tr><td>&lt;price_min&gt;</td><td>&lt;price_max&gt;</td><td>&lt;bathroom&gt;</td><td>&lt;air_conditioner&gt;</td><td>&lt;hot_tube&gt;</td></tr></tbody></table><br>And John picks the first x-star-place: "&lt;star_level&gt;"<br>Then John should see the summary of the reservation</div>
     </div>
 
     <div id="beforetable"></div>
     <div id="contenttilttle">
         <div class="slider-wrapper theme-default">
             <div id="slider">
-                <img src="5cb5f0739b611d4eb6fb7def953ff78c67885a80f41062baef119eb9ed47eb36.png" title=" Example: {where=Sicily, check-In_in=5, check-Out_in=12, adults=2, kids=1, babies=0}" width="1920"/>
-                <img src="5cb5f0739b611d4eb6fb7def953ff78c67885a80f41062baef119eb9ed47eb36.png" title=" Given John is on the Home page" width="1920"/>
-                <img src="5cf21c9f5d8d3e901abb2805261dad3ded84caf5b7a3be7ab9ee39e918ebe267.png" title=" And John submits booking options:
+                <img src="b2dcd96f441bc43ab45fcebc8c5b49a61a6d9ee913621623d8a271ef299a92f2.png" title=" Example: {where=Sicily, check-In_in=5, check-Out_in=12, adults=2, kids=1, babies=0, currency=EUR, price_min=50, price_max=100, bathroom=1, air_conditioner=yes, hot_tube=yes, star_level=5.0}" width="1920"/>
+                <img src="b2dcd96f441bc43ab45fcebc8c5b49a61a6d9ee913621623d8a271ef299a92f2.png" title=" Given John is on the Home page" width="1920"/>
+                <img src="88eac22992ecdbbdf4eb28fb812b911ebcf61f537faafa1ed3c36b7e3e920e5f.png" title=" And John submits booking options:
 | where | check-In_in | check-Out_in | adults | kids | babies |
 | Sicily | 5 | 12 | 2 | 1 | 0 |" width="1920"/>
-                <img src="5cf21c9f5d8d3e901abb2805261dad3ded84caf5b7a3be7ab9ee39e918ebe267.png" title=" Clicks on: HomePage.checkInDate" width="1920"/>
-                <img src="ee57ae0919b8e689e8e1a6a3b53d7bf7a7c326986798906618c918b015ea02bd.png" title=" Clicks on: [[ChromeDriver: chrome on WINDOWS (62c77533c9c61a1541e8e84bb951e9aa)] -&gt; xpath: //*[@aria-label='Календар']/div[2]/div/div[2]/div/table/tbody/tr/td[@class]]" width="1920"/>
-                <img src="fb76fbee35af24df6dcd60a2ac47923272496ffb7a9dae72bfc3df96650d0166.png" title=" Clicks on: [[ChromeDriver: chrome on WINDOWS (62c77533c9c61a1541e8e84bb951e9aa)] -&gt; xpath: //*[@aria-label='Календар']/div[2]/div/div[2]/div/table/tbody/tr/td[@class]]" width="1920"/>
-                <img src="fb76fbee35af24df6dcd60a2ac47923272496ffb7a9dae72bfc3df96650d0166.png" title=" And John submits booking options:
+                <img src="88eac22992ecdbbdf4eb28fb812b911ebcf61f537faafa1ed3c36b7e3e920e5f.png" title=" Enters reservation location: Sicily" width="1920"/>
+                <img src="88eac22992ecdbbdf4eb28fb812b911ebcf61f537faafa1ed3c36b7e3e920e5f.png" title=" Enters string in field: HomePage.whereInputField, Sicily" width="1920"/>
+                <img src="aecb1cdd161228c45a8ee4fad86d400e2f228ceac1dafae449f8128f5c19b83d.png" title=" Enters reservation location: Sicily (completed)" width="1920"/>
+                <img src="24911213013f3e53a4b4f8aaed50de7d66601d8a13fe84e3b50c8c761d7a0a24.png" title=" Picks check in check out dates" width="1920"/>
+                <img src="24911213013f3e53a4b4f8aaed50de7d66601d8a13fe84e3b50c8c761d7a0a24.png" title=" Clicks on: HomePage.checkInDate" width="1920"/>
+                <img src="b5c0b84a95f64ea0b8f1545af7ba0c3e1775333acc6510185f36096a6593969e.png" title=" Clicks on: [[ChromeDriver: chrome on WINDOWS (d9623b719b047b37a6686181967930a6)] -&gt; xpath: //*[@aria-label='Календар']/div[2]/div/div[2]/div/table/tbody/tr/td[@class]]" width="1920"/>
+                <img src="0ef39e488da390dc3f2842defc29bc5788afe10d9d884585943624a98ae9f910.png" title=" Clicks on: [[ChromeDriver: chrome on WINDOWS (d9623b719b047b37a6686181967930a6)] -&gt; xpath: //*[@aria-label='Календар']/div[2]/div/div[2]/div/table/tbody/tr/td[@class]]" width="1920"/>
+                <img src="0ef39e488da390dc3f2842defc29bc5788afe10d9d884585943624a98ae9f910.png" title=" Picks check in check out dates (completed)" width="1920"/>
+                <img src="09b7209c36dc258652f99278389516ce018c5a711d189c776dec15ee0f13e354.png" title=" Picks guests options: 2, 1, 0" width="1920"/>
+                <img src="09b7209c36dc258652f99278389516ce018c5a711d189c776dec15ee0f13e354.png" title=" Clicks on: HomePage.guestsPickButton" width="1920"/>
+                <img src="23daa1c1839d08d7691d5c1c688cc4fc62a87daa64ca26c207576ab1e45d5569.png" title=" Clicks on: [[ChromeDriver: chrome on WINDOWS (d9623b719b047b37a6686181967930a6)] -&gt; css selector: ._1a72ixey [type='button']._1iz654np]" width="1920"/>
+                <img src="9f3ce88b9873fb89a9e694bf2bcd7b5d0dc9b717bb3a501ad8c4ca047b78be45.png" title=" Clicks on: [[ChromeDriver: chrome on WINDOWS (d9623b719b047b37a6686181967930a6)] -&gt; css selector: ._1a72ixey [type='button']._1iz654np]" width="1920"/>
+                <img src="1b7da823d52c786cce5af1515d14043067c0fa34245db205e3bfdc6cc2e0b03e.png" title=" Clicks on: [[ChromeDriver: chrome on WINDOWS (d9623b719b047b37a6686181967930a6)] -&gt; css selector: ._1a72ixey [type='button']._1iz654np]" width="1920"/>
+                <img src="702fe855d6a58935710d56aef78d1eac911b5f9185c83c80229494454973b6cf.png" title=" Clicks on: HomePage.guestsSaveButton" width="1920"/>
+                <img src="702fe855d6a58935710d56aef78d1eac911b5f9185c83c80229494454973b6cf.png" title=" Picks guests options: 2, 1, 0 (completed)" width="1920"/>
+                <img src="540d478f08f1fe8982a2b19156be0e744a80b407caef4b18c01f58f2e5f1ba6c.png" title=" Clicks on: HomePage.bookingSearchButton" width="1920"/>
+                <img src="540d478f08f1fe8982a2b19156be0e744a80b407caef4b18c01f58f2e5f1ba6c.png" title=" And John submits booking options:
 | where | check-In_in | check-Out_in | adults | kids | babies |
 | Sicily | 5 | 12 | 2 | 1 | 0 | (completed)" width="1920"/>
-                <img src="fb76fbee35af24df6dcd60a2ac47923272496ffb7a9dae72bfc3df96650d0166.png" title=" Then John should see the offers for the location" width="1920"/>
-                <img src="fb76fbee35af24df6dcd60a2ac47923272496ffb7a9dae72bfc3df96650d0166.png" title=" When John filters his preferences" width="1920"/>
-                <img src="fb76fbee35af24df6dcd60a2ac47923272496ffb7a9dae72bfc3df96650d0166.png" title=" And John picks the first 5-star-place" width="1920"/>
-                <img src="fb76fbee35af24df6dcd60a2ac47923272496ffb7a9dae72bfc3df96650d0166.png" title=" Then John should see the summary of the reservation" width="1920"/>
-                <img src="fb76fbee35af24df6dcd60a2ac47923272496ffb7a9dae72bfc3df96650d0166.png" title=" Example: {where=Sicily, check-In_in=5, check-Out_in=12, adults=2, kids=1, babies=0} (completed): <span class='success-color'>SUCCESS</span>" width="1920"/>
+                <img src="0875dfbbed9e952ae9b3c9841e2b26747a2dcd9a4879c1790263c44c73b411d1.png" title=" Then John should see the offers for the location: &quot;Sicily&quot;" width="1920"/>
+                <img src="18272f1f07c7599b6c9f8464b185ec05a375dec451dd6fe0224911821b72a591.png" title=" When John selects a currency &quot;EUR&quot;" width="1920"/>
+                <img src="18272f1f07c7599b6c9f8464b185ec05a375dec451dd6fe0224911821b72a591.png" title=" Picks currency: EUR" width="1920"/>
+                <img src="18272f1f07c7599b6c9f8464b185ec05a375dec451dd6fe0224911821b72a591.png" title=" Moves pointer to element: OffersPage.currencyPickButton" width="1920"/>
+                <img src="37b707c44f53be8fccefe84827fb95722fc80fa08a7ca83057af0c0eb1647a73.png" title=" Clicks on: OffersPage.currencyPickButton" width="1920"/>
+                <img src="a4245b45e48b8367f3f56360f30d618a7fef41c3e809306ada98058b646efe0a.png" title=" Clicks on: [[ChromeDriver: chrome on WINDOWS (d9623b719b047b37a6686181967930a6)] -&gt; css selector: button._lwi6c1u div._a7a5sx]" width="1920"/>
+                <img src="a4245b45e48b8367f3f56360f30d618a7fef41c3e809306ada98058b646efe0a.png" title=" Picks currency: EUR (completed)" width="1920"/>
+                <img src="a4245b45e48b8367f3f56360f30d618a7fef41c3e809306ada98058b646efe0a.png" title=" When John selects a currency &quot;EUR&quot; (completed)" width="1920"/>
+                <img src="3ea564b2215d4a1017a965a05c21786c71aba5beac567179efd3d755d52168b6.png" title=" And John filters his preferences:
+| price_min | price_max | bathroom | air_conditioner | hot_tube |
+| 50 | 100 | 1 | yes | yes |" width="1920"/>
+                <img src="3ea564b2215d4a1017a965a05c21786c71aba5beac567179efd3d755d52168b6.png" title=" Enters price range: 50, 100" width="1920"/>
+                <img src="3ea564b2215d4a1017a965a05c21786c71aba5beac567179efd3d755d52168b6.png" title=" Clicks on: OffersPage.filterPriceButton" width="1920"/>
+                <img src="13ac02080fb61ebc643719ccffa5bcab8c771c3f3741c81011574598314b7e3f.png" title=" Enters string in field: OffersPage.inputFieldPriceMin, 50" width="1920"/>
+                <img src="bdf99d02258b7cf740a9d0f3a2ad052b5c3b0ad27f0abc5a125366792985307f.png" title=" Enters string in field: OffersPage.inputFieldPriceMax, 100" width="1920"/>
+                <img src="17afeb16f81daa449b0a84a397af5b851568c2aa01d5778106ef112edfec1007.png" title=" Clicks on: OffersPage.filterPriceSaveButton" width="1920"/>
+                <img src="17afeb16f81daa449b0a84a397af5b851568c2aa01d5778106ef112edfec1007.png" title=" Enters price range: 50, 100 (completed)" width="1920"/>
+                <img src="6c2f253a936512852a56e5ae5199a90fada90664b98b3939fd43d3505b00c46a.png" title=" Clicks on: OffersPage.filterMoreOptionsButton" width="1920"/>
+                <img src="4d0feea68a1f388bc8cdedd138b647dcdeb63cc80d8e9ee51708c01b881e55eb.png" title=" Clicks on: OffersPage.bathroomsAddButton" width="1920"/>
+                <img src="1e8c5bc2e7d71c15b4401b53a8e164c0d6e02c51573102c5edd232cb7a00ffed.png" title=" Moves pointer to element: OffersPage.airConditionerCheckbox" width="1920"/>
+                <img src="9b0e4d520b67086a0e90af903ca9552176874e7db3fa6dbd91134884f51a58ba.png" title=" Clicks on: OffersPage.airConditionerCheckbox" width="1920"/>
+                <img src="423cb918193ef6353a33f4fe822c5237ed07f21d02460fe692028a963fe3415e.png" title=" Moves pointer to element: OffersPage.hotTubeCheckbox" width="1920"/>
+                <img src="54b0378964a1f7d66d2fff1da0d4637a22fa63437619a51833070c26e5902aab.png" title=" Clicks on: OffersPage.hotTubeCheckbox" width="1920"/>
+                <img src="1af685baa4ece2d0dff2bb8ac23b4d0a94b770543ac3a79f5c42f9ebc5eaec70.png" title=" Clicks on: OffersPage.filterMoreOptionsSaveButton" width="1920"/>
+                <img src="1af685baa4ece2d0dff2bb8ac23b4d0a94b770543ac3a79f5c42f9ebc5eaec70.png" title=" And John filters his preferences:
+| price_min | price_max | bathroom | air_conditioner | hot_tube |
+| 50 | 100 | 1 | yes | yes | (completed)" width="1920"/>
+                <img src="ab13d2fc5c0d391c62864368c40a8a5fed4f98aae28f746d39a3351decc9ef2f.png" title=" And John picks the first x-star-place: &quot;5.0&quot;" width="1920"/>
+                <img src="ab13d2fc5c0d391c62864368c40a8a5fed4f98aae28f746d39a3351decc9ef2f.png" title=" Clicks on: [[ChromeDriver: chrome on WINDOWS (d9623b719b047b37a6686181967930a6)] -&gt; css selector: div._8ssblpx [itemprop='itemListElement'] ._1szwzht a]" width="1920"/>
+                <img src="ab13d2fc5c0d391c62864368c40a8a5fed4f98aae28f746d39a3351decc9ef2f.png" title=" And John picks the first x-star-place: &quot;5.0&quot; (completed)" width="1920"/>
+                <img src="ab13d2fc5c0d391c62864368c40a8a5fed4f98aae28f746d39a3351decc9ef2f.png" title=" Then John should see the summary of the reservation" width="1920"/>
+                <img src="ab13d2fc5c0d391c62864368c40a8a5fed4f98aae28f746d39a3351decc9ef2f.png" title=" Example: {where=Sicily, check-In_in=5, check-Out_in=12, adults=2, kids=1, babies=0, currency=EUR, price_min=50, price_max=100, bathroom=1, air_conditioner=yes, hot_tube=yes, star_level=5.0} (completed): <span class='success-color'>SUCCESS</span>" width="1920"/>
             </div>
         </div>
 
