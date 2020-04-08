@@ -22,7 +22,7 @@ public class BaseActions {
     @Step
     public void clicksOn(WebElementFacade buttonOrLink) throws InterruptedException {
         buttonOrLink.waitUntilClickable().click();
-        Thread.sleep(500);
+        Thread.sleep(1000);
     }
 
     @Step
@@ -30,7 +30,7 @@ public class BaseActions {
         currentPage.find(locator)
                 .waitUntilClickable()
                 .click();
-        Thread.sleep(500);
+        Thread.sleep(1000);
     }
 
     @Step
@@ -43,7 +43,7 @@ public class BaseActions {
     public void movesPointerToElement(WebElementFacade element) throws InterruptedException {
 
         Actions actions = new Actions(driver);
-        actions.moveToElement(element).perform();
+        actions.moveToElement(element,0, 5).perform();
         Thread.sleep(500);
     }
 

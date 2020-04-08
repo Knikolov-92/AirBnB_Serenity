@@ -37,4 +37,3 @@ public class HomePage extends PageObject {
     public WebElementFacade bookingSearchButton;
 
 }
-//*[@aria-label='Календар']/div[2]/div/div[2]/div/div/strong

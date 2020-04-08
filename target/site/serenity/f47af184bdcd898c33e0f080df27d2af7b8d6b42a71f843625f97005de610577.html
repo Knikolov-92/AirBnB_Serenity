@@ -217,7 +217,7 @@
             <a href="#"><i class="fa fa-comments-o"></i> Features</a>
         </li>
     </ul>
-    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 06-04-2020 19:24</span>
+    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 08-04-2020 18:39</span>
     <br style="clear:left"/>
 </div>
 
@@ -345,18 +345,28 @@
 </tbody>
 </table>
 </p>
-                                                            <p>Then John should see the offers for the location</p>
-                                                            <p>When John filters his preferences</p>
-                                                            <p>And John picks the first 5-star-place</p>
+                                                            <p>Then John should see the offers for the location: &quot;{where}&quot;</p>
+                                                            <p>When John selects a currency &quot;{currency}&quot;</p>
+                                                            <p><p>And John filters his preferences:</p>
+<table>
+<thead>
+<tr><th>price_min</th><th>price_max</th><th>bathroom</th><th>air_conditioner</th><th>hot_tube</th></tr>
+</thead>
+<tbody>
+<tr><td>{price_min}</td><td>{price_max}</td><td>{bathroom}</td><td>{air_conditioner}</td><td>{hot_tube}</td></tr>
+</tbody>
+</table>
+</p>
+                                                            <p>And John picks the first x-star-place: &quot;{star_level}&quot;</p>
                                                             <p>Then John should see the summary of the reservation</p>
                                                         <div class="examples">
                                                             <p><p>Examples:</p>
 <div class='example-table-in-scenario'><table>
 <thead>
-<tr><th>where</th><th>check-In_in</th><th>check-Out_in</th><th>adults</th><th>kids</th><th>babies</th><th></th></tr>
+<tr><th>where</th><th>check-In_in</th><th>check-Out_in</th><th>adults</th><th>kids</th><th>babies</th><th>currency</th><th>price_min</th><th>price_max</th><th>bathroom</th><th>air_conditioner</th><th>hot_tube</th><th>star_level</th><th></th></tr>
 </thead>
 <tbody>
-<tr><td>Sicily</td><td>5</td><td>12</td><td>2</td><td>1</td><td>0</td><td> </td></tr>
+<tr><td>Sicily</td><td>5</td><td>7</td><td>2</td><td>1</td><td>0</td><td>EUR</td><td>50</td><td>100</td><td>1</td><td>yes</td><td>yes</td><td>5.0</td><td> </td></tr>
 </tbody>
 </table></div>
 </p>
@@ -499,11 +509,11 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr>
-                                                        <td>28s</td>
-                                                        <td>28ms</td>
-                                                        <td>28s</td>
-                                                        <td>28s</td>
-                                                        <td>28s</td>
+                                                        <td> 1m 18s</td>
+                                                        <td>78ms</td>
+                                                        <td> 1m 17s</td>
+                                                        <td> 1m 17s</td>
+                                                        <td> 1m 18s</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -531,9 +541,9 @@
                                                             <a href="6fb97ee3fb3d50a7fcbe748d86289af62000bbe31dfc90dea7bbde1c27dbb4d6.html">John books a vacation at a place somewhere</a>
                                                                (1 example)
                                                     </td>
-                                                    <td>6</td>
-                                                    <td>19:24:03</td>
-                                                    <td>28s 837ms</td>
+                                                    <td>7</td>
+                                                    <td>18:39:12</td>
+                                                    <td>1m 18s</td>
                                                     <td>
                                                             <a href='##beforetable'><i class='fa fa-check-circle-o success-icon ' title='SUCCESS'></i></a> <span
                                                                 style="display:none">SUCCESS</span>

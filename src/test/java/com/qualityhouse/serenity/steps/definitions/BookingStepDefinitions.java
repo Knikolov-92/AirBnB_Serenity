@@ -5,25 +5,27 @@ import com.qualityhouse.serenity.page_objects.OffersPage;
 import com.qualityhouse.serenity.steps.libraries.BaseActions;
 import com.qualityhouse.serenity.steps.libraries.BookingActions;
 import cucumber.api.DataTable;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.Steps;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import static com.qualityhouse.serenity.page_objects.OffersPage.*;
+import static net.thucydides.core.webdriver.ThucydidesWebDriverSupport.getDriver;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BookingStepDefinitions {
 
     private HomePage homePage;
     private OffersPage offersPage;
-
+    private int sumTotalGuests;
+    private WebDriver driver = getDriver();
     @Steps
     private BookingActions yakim;
     @Steps
@@ -40,12 +42,16 @@ public class BookingStepDefinitions {
 
         List<Map<String, String>> data = inputData.asMaps(String.class, String.class);
         String location = data.get(0).get("where");
+        String checkIn = data.get(0).get("check-In_in");
+        String checkOut = data.get(0).get("check-Out_in");
         String adults = data.get(0).get("adults");
         String kids = data.get(0).get("kids");
         String babies = data.get(0).get("babies");
 
+        this.sumTotalGuests = Integer.parseInt(adults) + Integer.parseInt(kids) + Integer.parseInt(babies);
+
         yakim.entersReservationLocation(location);
-        yakim.picksCheckInCheckOutDates();
+        yakim.picksCheckInCheckOutDates(checkIn, checkOut);
         yakim.picksGuestsOptions(adults, kids, babies);
         bobi.clicksOn(homePage.bookingSearchButton);
     }
@@ -73,23 +79,29 @@ public class BookingStepDefinitions {
     @When("^John picks the first x-star-place: \"([^\"]*)\"$")
     public void johnPicksTheFirstXStarPlace(String stars) throws InterruptedException {
 
+        Actions actions = new Actions(driver);
         String loopElement = "";
-        List<WebElementFacade> listOfOfferStars = offersPage.findAll(OFFERS_STAR_VALUE_LOCATOR);
-        List<WebElementFacade> listOfOffers = offersPage.findAll(OFFERS_COUNT_LIST_LOCATOR);
-        for(int i = 0; i < listOfOfferStars.size(); i++) {
+        List<WebElementFacade> listOfStars = offersPage.findAll(OFFERS_STAR_VALUE_LOCATOR);
 
-            loopElement = listOfOfferStars.get(i).getText().substring(0,4);
+        for(int i = 0; i < listOfStars.size(); i++) {
+
+            bobi.movesPointerToElement(listOfStars.get(i));
+            loopElement = listOfStars.get(i).getText().trim().substring(0,3);
             System.out.println("looping through: " +loopElement);
-            if(loopElement.equals(stars) ) {
-                  bobi.clicksOn(listOfOffers.get(i));
-                  break;
-            }
+
+                if (loopElement.equals(stars.trim()) ) {
+                    actions.click().perform();
+                    break;
+                }
         }
     }
-    
 
     @Then("^John should see the summary of the reservation$")
-    public void johnShouldSeeTheSummaryOfTheReservation() {
+    public void johnShouldSeeTheSummaryOfTheReservation() throws InterruptedException {
+
+        yakim.checksSummaryDates();
+        yakim.checksSummaryNumberOfGuests(this.sumTotalGuests);
+        yakim.checksSummaryTotalPrice();
     }
 
 
