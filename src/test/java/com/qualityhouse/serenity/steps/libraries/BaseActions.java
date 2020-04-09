@@ -1,6 +1,5 @@
 package com.qualityhouse.serenity.steps.libraries;
 
-import com.qualityhouse.serenity.page_objects.BasePage;
 import com.qualityhouse.serenity.page_objects.HomePage;
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.Step;
@@ -16,13 +15,13 @@ import static net.thucydides.core.webdriver.ThucydidesWebDriverSupport.getDriver
 
 public class BaseActions {
 
-    private BasePage currentPage;
+    private HomePage currentPage;
     private WebDriver driver = getDriver();
 
     @Step
     public void clicksOn(WebElementFacade buttonOrLink) throws InterruptedException {
         buttonOrLink.waitUntilClickable().click();
-        Thread.sleep(1000);
+        Thread.sleep(1250);
     }
 
     @Step
@@ -30,7 +29,7 @@ public class BaseActions {
         currentPage.find(locator)
                 .waitUntilClickable()
                 .click();
-        Thread.sleep(1000);
+        Thread.sleep(1250);
     }
 
     @Step

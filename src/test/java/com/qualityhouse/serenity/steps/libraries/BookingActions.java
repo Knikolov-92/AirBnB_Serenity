@@ -3,26 +3,18 @@ package com.qualityhouse.serenity.steps.libraries;
 import com.qualityhouse.serenity.page_objects.HomePage;
 import com.qualityhouse.serenity.page_objects.OffersPage;
 import com.qualityhouse.serenity.page_objects.SummaryPage;
-import cucumber.api.java.ca.Cal;
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.Steps;
-import org.assertj.core.api.SoftAssertionError;
 import org.assertj.core.api.SoftAssertions;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.interactions.Actions;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.qualityhouse.serenity.page_objects.HomePage.*;
 import static com.qualityhouse.serenity.page_objects.OffersPage.*;
-import static com.qualityhouse.serenity.page_objects.SummaryPage.SUMMARY_DISCOUNTS_LOCATOR;
-import static com.qualityhouse.serenity.page_objects.SummaryPage.SUMMARY_TAXES_LOCATOR;
+import static com.qualityhouse.serenity.page_objects.SummaryPage.*;
 import static net.thucydides.core.webdriver.ThucydidesWebDriverSupport.getDriver;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,64 +34,87 @@ public class BookingActions {
     @Step
     public void entersReservationLocation(String location) {
 
-        Actions actions = new Actions(driver);
+        //Actions actions = new Actions(driver);
         ilio.entersStringInField(homePage.whereInputField, location);
-        actions.sendKeys(Keys.ENTER).perform();
+        //actions.sendKeys(Keys.ENTER).perform();
     }
 
     @Step
     public void picksCheckInCheckOutDates(String checkIn, String checkOut) throws InterruptedException {
 
+//get current date --------------------------------------------------------------------------
         LocalDate currentDate = LocalDate.now();
         String currentDateFormatted = currentDate.format
-                (DateTimeFormatter.ofPattern("dd/MMMM/yyyy", Locale.ENGLISH));
-        System.out.println("current date: " +currentDateFormatted);
-        String[] dateArray = currentDateFormatted.split("/");
-        String day = dateArray[0];
-        String month = dateArray[1].toLowerCase();
-        String year = dateArray[2];
-        int startDayInt = Integer.parseInt(day) + Integer.parseInt(checkIn);
-        String startDay = Integer.toString(startDayInt);
-        String endDay = Integer.toString(startDayInt + Integer.parseInt(checkOut) );
-        String expectedCurrentDateInCalendar = month + " " + year;
-        String actualCurrentDateInCalendar = "";
+                (DateTimeFormatter.ofPattern("d/MMMM/yyyy", Locale.ENGLISH));
+        String[] currentDateArray = currentDateFormatted.split("/");
+        String monthCurrent = currentDateArray[1].toLowerCase();
+        String yearCurrent = currentDateArray[2];
+//get start date ----------------------------------------------------------------------------
+        LocalDate bookStart = currentDate.plusDays(Integer.parseInt(checkIn));
+        String startDateFormatted = bookStart.format
+                (DateTimeFormatter.ofPattern("d/MMMM/yyyy", Locale.ENGLISH));
+        String[] startDateArray = startDateFormatted.split("/");
+        String dayStart = startDateArray[0];
+        String monthStart = startDateArray[1].toLowerCase();
+        String yearStart = startDateArray[2];
+//get end date ------------------------------------------------------------------------------
+        LocalDate bookEnd = bookStart.plusDays(Integer.parseInt(checkOut));
+        String endDateFormatted = bookEnd.format
+                (DateTimeFormatter.ofPattern("d/MMMM/yyyy", Locale.ENGLISH));
+        String[] endDateArray = endDateFormatted.split("/");
+        String dayEnd = endDateArray[0];
+        String monthEnd = endDateArray[1].toLowerCase();
+        String yearEnd = endDateArray[2];
+//print dates ------------------------------------------------------------------------------
+        System.out.println("current date: " +currentDateFormatted +",start: " +startDateFormatted+ ",end: " +endDateFormatted );
+//set start/end date to check in summary page
+        this.vacationStartDate = bookStart.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        this.vacationEndDate = bookEnd.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+//check current calendar header------------------------------------------------------------------------------
+        String expectedCurrentMonthYearInCalendar = monthCurrent + " " + yearCurrent;
+        String actualCurrentMonthYearInCalendar = "";
 
-        LocalDate bookStart = currentDate.plusDays(5);
-        this.vacationStartDate = bookStart.format(DateTimeFormatter.ofPattern("M/d/yyyy"));
-        System.out.println("start: " +bookStart);
-        LocalDate bookEnd = bookStart.plusDays(7);
-        this.vacationEndDate = bookEnd.format(DateTimeFormatter.ofPattern("M/d/yyyy"));
-        System.out.println("end: " +bookEnd);
+        ilio.clicksOn(homePage.checkInOutDate);
+        List<WebElementFacade> checkOutDays;
+        List<WebElementFacade> checkInDays;
+        List<WebElementFacade> monthYearTextList = homePage.findAll(CALENDAR_MONTH_YEAR_TEXT_LOCATOR);
+        actualCurrentMonthYearInCalendar = monthYearTextList.get(1).getText().toLowerCase();
+        System.out.println("month+year expected is: " + expectedCurrentMonthYearInCalendar
+                + ", actual is: " + actualCurrentMonthYearInCalendar);
+        assertThat(actualCurrentMonthYearInCalendar).isEqualTo(expectedCurrentMonthYearInCalendar);
+//select start date -----------------------------------------------------------------------------------------
 
-        ilio.clicksOn(homePage.checkInDate);
+        if((monthStart +" " +yearStart).equals(actualCurrentMonthYearInCalendar) ) {
 
-        actualCurrentDateInCalendar = homePage.find(CALENDAR_MONTH_YEAR_TEXT_LOCATOR).getText().toLowerCase();
-        System.out.println("month+year expected is: " + expectedCurrentDateInCalendar
-                + ", actual is: " + actualCurrentDateInCalendar);
-
-        assertThat(actualCurrentDateInCalendar).isEqualTo(expectedCurrentDateInCalendar);
-
-        List<WebElementFacade> checkInDays = homePage.findAll(CALENDAR_DAY_PICK_LOCATOR);
-
-        for (WebElementFacade checkInDay : checkInDays) {
-
-            if (checkInDay.getText().trim().equals(startDay)) {
-
-                ilio.clicksOn(checkInDay);
-                break;
-            }
+           checkInDays = homePage.findAll(CALENDAR_DAY_CURRENT_MONTH_LOCATOR);
+        }else
+            {
+                checkInDays = homePage.findAll(CALENDAR_DAY_NEXT_MONTH_LOCATOR);
         }
+            for (WebElementFacade checkInDay : checkInDays) {
 
-        List<WebElementFacade> checkOutDays = homePage.findAll(CALENDAR_DAY_PICK_LOCATOR);
+                if (checkInDay.getText().trim().equals(dayStart)) {
 
-        for (WebElementFacade checkOutDay : checkOutDays) {
-
-            if (checkOutDay.getText().trim().equals(endDay)) {
-
-                ilio.clicksOn(checkOutDay);
-                break;
+                    ilio.clicksOn(checkInDay);
+                    break;
+                }
             }
+//select end date -----------------------------------------------------------------------------------------
+        if((monthEnd +" " +yearEnd).equals(actualCurrentMonthYearInCalendar) ) {
+
+            checkOutDays = homePage.findAll(CALENDAR_DAY_CURRENT_MONTH_LOCATOR);
+        }else
+            {
+                checkOutDays = homePage.findAll(CALENDAR_DAY_NEXT_MONTH_LOCATOR);
         }
+            for (WebElementFacade checkOutDay : checkOutDays) {
+
+                if (checkOutDay.getText().trim().equals(dayEnd)) {
+
+                    ilio.clicksOn(checkOutDay);
+                    break;
+                }
+            }
     }
 
     @Step
@@ -124,7 +139,7 @@ public class BookingActions {
             ilio.clicksOn(guestsAddButtons.get(2));
         }
 
-        ilio.clicksOn(homePage.guestsSaveButton);
+        //ilio.clicksOn(homePage.guestsSaveButton);
     }
 
     @Step
@@ -187,6 +202,8 @@ public class BookingActions {
         ArrayList<String> newTab = new ArrayList<String>(driver.getWindowHandles());
         driver.switchTo().window(newTab.get(1));
         Thread.sleep(2000);
+        ilio.movesPointerToElement(summaryPage.totalPrice);
+
         String actualStartDate = summaryPage.checkInDate.getText().trim();
         String actualEndDate = summaryPage.checkOutDate.getText().trim();
 
@@ -212,27 +229,44 @@ public class BookingActions {
     @Step
     public void checksSummaryTotalPrice() throws InterruptedException {
 
-        ilio.movesPointerToElement(summaryPage.reserveButton);
-
         Currency euro = Currency.getInstance("EUR");
         String euroSymbol = euro.getSymbol();
         List<WebElementFacade> costsList = summaryPage.findAll(SUMMARY_TAXES_LOCATOR);
         List<WebElementFacade> discountsList = summaryPage.findAll(SUMMARY_DISCOUNTS_LOCATOR);
-        String actualTotalNights = costsList.get(0).getText().trim();
-        String cleaningTax = costsList.get(1).getText().trim();
-        String serviceTax = costsList.get(2).getText().trim();
-        String discount1 = discountsList.get(0).getText().trim().substring(6);
-        String totalPrice = summaryPage.totalPrice.getText().trim();
+        String actualTaxText = "";
+        String actualDiscountText = "0";
+        int sumTotal = 0;
 
-        System.out.println("nights " +actualTotalNights +",cleaning "+cleaningTax
-                +",service "+serviceTax +",discount " +discount1 +",total "+totalPrice);
-        int sum = Integer.parseInt(actualTotalNights.substring(1))
-                + Integer.parseInt(cleaningTax.substring(1))
-                + Integer.parseInt(serviceTax.substring(1))
-                - Integer.parseInt(discount1.substring(1));
+        for(WebElementFacade cost : costsList) {
 
-        softly.assertThat(Integer.parseInt(totalPrice.substring(1)) ).isEqualTo(sum);
-        softly.assertThat(totalPrice).isEqualTo(euroSymbol + (Integer.toString(sum)));
+            String[] costArr = cost.getText().trim().substring(1).split(" ");
+                for(String value : costArr) {
+                    actualTaxText += value;
+                }
+            sumTotal += Integer.parseInt(actualTaxText);
+            System.out.println("+" +actualTaxText +"current sum = " +sumTotal);
+            actualTaxText = "";
+
+        }
+
+        if(discountsList.size() != 0) {
+            for(WebElementFacade discount : discountsList) {
+                actualDiscountText = discount.getText().trim().substring(2);
+            }
+             sumTotal -= Integer.parseInt(actualDiscountText);
+            System.out.println("-" +actualDiscountText +", currernt sum =" +sumTotal);
+        }
+
+        String[] totalPriceArr = summaryPage.totalPrice.getText().trim().substring(1).split(" ");
+        String totalPriceText = "";
+            for(String value : totalPriceArr) {
+                totalPriceText += value;
+            }
+
+        System.out.println("expected: "+sumTotal +", actual: " +totalPriceText);
+
+        softly.assertThat(Integer.parseInt(totalPriceText) ).isEqualTo(sumTotal);
+        softly.assertThat(euroSymbol + totalPriceText).isEqualTo(euroSymbol + (Integer.toString(sumTotal)));
         softly.assertAll();
     }
 }

@@ -16,4 +16,4 @@ Feature: Book a vacation
 
     Examples:
       | where  | check-In_in | check-Out_in | adults | kids | babies | currency | price_min | price_max | bathroom | air_conditioner | hot_tube | star_level |
-      | Sicily | 5           | 7            | 2      | 1    | 0      | EUR      | 50        | 100       | 1        | yes             | yes      | 5.0        |
+      | Sicily | 5           | 22           | 2      | 1    | 0      | EUR      | 50        | 100       | 1        | yes             | yes      | 5.0        |

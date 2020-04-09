@@ -9,31 +9,33 @@ import org.openqa.selenium.By;
 @DefaultUrl("https://bg.airbnb.com/")
 public class HomePage extends PageObject {
 
-    public final static By CALENDAR_DAY_PICK_LOCATOR =
+    public final static By CALENDAR_DAY_CURRENT_MONTH_LOCATOR =
             By.xpath("//*[@aria-label='Календар']/div[2]/div/div[2]/div/table/tbody/tr/td[@class]");
+    public final static By CALENDAR_DAY_NEXT_MONTH_LOCATOR =
+            By.xpath("/html/body/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/div/div/div/form/div/div[1]/div[3]/div/div/div/div/div/div/div[2]/div[2]/div/div[3]/div/table/tbody/tr/td[@class]");
     public final static By CALENDAR_MONTH_YEAR_TEXT_LOCATOR =
-            By.xpath("//*[@aria-label='Календар']/div[2]/div/div[2]/div/div/strong");
+            By.xpath("//*[@aria-label='Календар']/div[2]/div/div/div/div");
     public final static By GUESTS_TYPE_PICK_LOCATOR =
             By.cssSelector("._mke2gl1 div._1p3joamp");
     public final static By GUESTS_ADD_BUTTON_LOCATOR =
-            By.cssSelector("._1a72ixey [type='button']._1iz654np");
+            By.cssSelector("div._3zlfom ._11yg8kv[type='button'][aria-label='увеличаване на стойността']");
 
-    @FindBy(name = "query")
+    @FindBy(id = "bigsearch-query-attached-query")
     public WebElementFacade whereInputField;
 
-    @FindBy(name = "checkin")
-    public WebElementFacade checkInDate;
+    @FindBy(xpath = "/html/body/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/div/div/div/form/div/div[1]/div[3]/div/button")
+    public WebElementFacade checkInOutDate;
 
-    @FindBy(name = "checkout")
-    public WebElementFacade checkOutDate;
+    //@FindBy(name = "checkout")
+    //public WebElementFacade checkOutDate;
 
-    @FindBy(id = "lp-guestpicker")
+    @FindBy(xpath = "/html/body/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/div/div/div/form/div/div[1]/div[5]/div/button")
     public WebElementFacade guestsPickButton;
 
     @FindBy(css = "[type='button']._b0ybw8s")
     public WebElementFacade guestsSaveButton;
 
-    @FindBy(css = "._1r868w ._1vs0x720")
+    @FindBy(css = "div._h6px0p button")
     public WebElementFacade bookingSearchButton;
 
 }
