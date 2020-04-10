@@ -9,10 +9,8 @@ public class OffersPage extends PageObject {
 
     public final static By CURRENCY_PICK_LIST_LOCATOR =
             By.cssSelector("button._lwi6c1u div._a7a5sx");
-    public final static By OFFERS_STAR_VALUE_LOCATOR =
-            By.cssSelector("._4ntfzh span._13blcrbo");
-    public final static By OFFERS_PRICES_LIST_LOCATOR =
-            By.cssSelector("._vsjqit ._1llb8an");
+    public final static By OFFERS_STAR_PRICE_LOCATOR =
+            By.cssSelector("._4ntfzh ._13blcrbo, ._1llb8an");
 
     @FindBy(css = "h1._14i3z6h")
     public WebElementFacade offersHeadingInfoText;
@@ -49,5 +47,5 @@ public class OffersPage extends PageObject {
 
     @FindBy(className = "_2i58o3a")
     public WebElementFacade filterMoreOptionsSaveButton;
-
+//
 }

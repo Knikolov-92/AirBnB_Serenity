@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.qualityhouse.serenity.TestRunner
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 65.634 s - in com.qualityhouse.serenity.TestRunner

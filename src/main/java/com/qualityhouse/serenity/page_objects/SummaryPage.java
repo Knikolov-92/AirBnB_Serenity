@@ -8,27 +8,29 @@ import org.openqa.selenium.By;
 public class SummaryPage extends PageObject {
 
     public final static By SUMMARY_TAXES_LOCATOR =
-            By.cssSelector("ul._1hvzytt li ._ra05uc");
+            //By.cssSelector("ul._1hvzytt li ._ra05uc");
+            By.cssSelector("#book_it_form ._ni9axhe span._1jlnvra2 ._j1kt73");
     public final static By SUMMARY_DISCOUNTS_LOCATOR =
-            By.cssSelector("ul._1hvzytt li span._l1ngr4");
+            //By.cssSelector("ul._1hvzytt li span._l1ngr4");
+            By.cssSelector("#book_it_form ._ni9axhe span._1jlnvra2 span._krjbj");
 
-    //@FindBy(xpath = "//*[@id=\"book_it_form\"]/div[1]/div[1]/div/div/div/div/div/div/div[1]/div/div")
-    @FindBy(xpath = "//*[@id=\"site-content\"]/div/div[4]/div/div/div[3]/div/div/div[1]/div/div/div/div[1]/div[2]/div/div/div/div[1]/div/div/div[2]/div[1]/div[2]")
+    @FindBy(xpath = "//*[@id=\"book_it_form\"]/div[1]/div[1]/div/div/div/div/div/div/div[1]/div/div")
+    //@FindBy(xpath = "//*[@id=\"site-content\"]/div/div[4]/div/div/div[3]/div/div/div[1]/div/div/div/div[1]/div[2]/div/div/div/div[1]/div/div/div[2]/div[1]/div[2]")
     public WebElementFacade checkInDate;
 
-    //@FindBy(xpath = "//*[@id=\"book_it_form\"]/div[1]/div[1]/div/div/div/div/div/div/div[3]/div")
-    @FindBy(xpath = "//*[@id=\"site-content\"]/div/div[4]/div/div/div[3]/div/div/div[1]/div/div/div/div[1]/div[2]/div/div/div/div[1]/div/div/div[2]/div[2]/div[2]")
+    @FindBy(xpath = "//*[@id=\"book_it_form\"]/div[1]/div[1]/div/div/div/div/div/div/div[3]/div")
+    //@FindBy(xpath = "//*[@id=\"site-content\"]/div/div[4]/div/div/div[3]/div/div/div[1]/div/div/div/div[1]/div[2]/div/div/div/div[1]/div/div/div[2]/div[2]/div[2]")
     public WebElementFacade checkOutDate;
 
-    //@FindBy(css = "div .guest-label span")
-    @FindBy(css = "div ._1ir6ymk span")
+    @FindBy(css = "div .guest-label span")
+    //@FindBy(css = "div ._1ir6ymk span")
     public WebElementFacade numberOfGuests;
 
-    //@FindBy(css = "div ._ni9axhe ._121z06r2 ._j1kt73")
-    @FindBy(css = "._j44qhm ._1d3ext9m")
+    @FindBy(css = "div ._ni9axhe ._121z06r2 ._j1kt73")
+    //@FindBy(css = "._j44qhm ._1d3ext9m")
     public WebElementFacade totalPrice;
 
-    @FindBy(css = "button._1o4htsfg[type='submit']")
-    public WebElementFacade reserveButton;
+    //@FindBy(css = "button._1o4htsfg[type='submit']")
+    //public WebElementFacade reserveButton;
 
 }

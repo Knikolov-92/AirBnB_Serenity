@@ -1,4 +1,3 @@
-com\qualityhouse\serenity\page_objects\BasePage.class
 com\qualityhouse\serenity\page_objects\OffersPage.class
 com\qualityhouse\serenity\page_objects\HomePage.class
 com\qualityhouse\serenity\page_objects\SummaryPage.class

@@ -68,8 +68,8 @@ public class BookingActions {
 //print dates ------------------------------------------------------------------------------
         System.out.println("current date: " +currentDateFormatted +",start: " +startDateFormatted+ ",end: " +endDateFormatted );
 //set start/end date to check in summary page
-        this.vacationStartDate = bookStart.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-        this.vacationEndDate = bookEnd.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        this.vacationStartDate = bookStart.format(DateTimeFormatter.ofPattern("M/d/yyyy"));
+        this.vacationEndDate = bookEnd.format(DateTimeFormatter.ofPattern("M/d/yyyy"));
 //check current calendar header------------------------------------------------------------------------------
         String expectedCurrentMonthYearInCalendar = monthCurrent + " " + yearCurrent;
         String actualCurrentMonthYearInCalendar = "";
@@ -227,7 +227,7 @@ public class BookingActions {
     }
 
     @Step
-    public void checksSummaryTotalPrice() throws InterruptedException {
+    public void checksSummaryTotalPrice(String valueToCheck) {
 
         Currency euro = Currency.getInstance("EUR");
         String euroSymbol = euro.getSymbol();
@@ -251,7 +251,7 @@ public class BookingActions {
 
         if(discountsList.size() != 0) {
             for(WebElementFacade discount : discountsList) {
-                actualDiscountText = discount.getText().trim().substring(2);
+                actualDiscountText = discount.getText().trim().substring(7);
             }
              sumTotal -= Integer.parseInt(actualDiscountText);
             System.out.println("-" +actualDiscountText +", currernt sum =" +sumTotal);
@@ -260,13 +260,14 @@ public class BookingActions {
         String[] totalPriceArr = summaryPage.totalPrice.getText().trim().substring(1).split(" ");
         String totalPriceText = "";
             for(String value : totalPriceArr) {
-                totalPriceText += value;
+                totalPriceText += value.trim();
             }
 
         System.out.println("expected: "+sumTotal +", actual: " +totalPriceText);
 
         softly.assertThat(Integer.parseInt(totalPriceText) ).isEqualTo(sumTotal);
         softly.assertThat(euroSymbol + totalPriceText).isEqualTo(euroSymbol + (Integer.toString(sumTotal)));
+        softly.assertThat(euroSymbol + totalPriceText).isEqualTo(valueToCheck);
         softly.assertAll();
     }
 }

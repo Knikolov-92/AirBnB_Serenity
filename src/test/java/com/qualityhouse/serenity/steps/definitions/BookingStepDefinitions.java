@@ -25,6 +25,7 @@ public class BookingStepDefinitions {
     private HomePage homePage;
     private OffersPage offersPage;
     private int sumTotalGuests;
+    private String offerPrice;
     private WebDriver driver = getDriver();
     @Steps
     private BookingActions yakim;
@@ -81,15 +82,19 @@ public class BookingStepDefinitions {
 
         Actions actions = new Actions(driver);
         String loopElement = "";
-        List<WebElementFacade> listOfStars = offersPage.findAll(OFFERS_STAR_VALUE_LOCATOR);
+        List<WebElementFacade> listOfStarsPrices = offersPage.findAll(OFFERS_STAR_PRICE_LOCATOR);
 
-        for(int i = 0; i < listOfStars.size(); i++) {
+        for(int i = 0; i < listOfStarsPrices.size(); i++) {
 
-            bobi.movesPointerToElement(listOfStars.get(i));
-            loopElement = listOfStars.get(i).getText().trim().substring(0,3);
-            System.out.println("looping through: " +loopElement);
+            loopElement = listOfStarsPrices.get(i).getText().trim().substring(0,3);
+            System.out.println("Element(" +i +") =" +loopElement);
 
                 if (loopElement.equals(stars.trim()) ) {
+
+                    bobi.movesPointerToElement(listOfStarsPrices.get(i + 2));
+                    this.offerPrice = listOfStarsPrices.get(i + 1).getText().substring(0,5).trim();
+                    System.out.println(this.offerPrice);
+                    bobi.movesPointerToElement(listOfStarsPrices.get(i));
                     actions.click().perform();
                     break;
                 }
@@ -101,7 +106,7 @@ public class BookingStepDefinitions {
 
         yakim.checksSummaryDates();
         yakim.checksSummaryNumberOfGuests(this.sumTotalGuests);
-        yakim.checksSummaryTotalPrice();
+        yakim.checksSummaryTotalPrice(this.offerPrice);
     }
 
 
