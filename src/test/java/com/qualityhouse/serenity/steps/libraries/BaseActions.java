@@ -43,7 +43,7 @@ public class BaseActions {
 
         Actions actions = new Actions(driver);
         actions.moveToElement(element,0, 5).perform();
-        Thread.sleep(500);
+        Thread.sleep(1000);
     }
 
     public void scrollsDownThePage() throws InterruptedException {

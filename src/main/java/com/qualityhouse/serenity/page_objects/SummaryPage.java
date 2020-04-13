@@ -22,9 +22,12 @@ public class SummaryPage extends PageObject {
     //@FindBy(xpath = "//*[@id=\"site-content\"]/div/div[4]/div/div/div[3]/div/div/div[1]/div/div/div/div[1]/div[2]/div/div/div/div[1]/div/div/div[2]/div[2]/div[2]")
     public WebElementFacade checkOutDate;
 
-    @FindBy(css = "div .guest-label span")
+    @FindBy(css = "div .guest-label span[class^='guest-label__text guest-label__text-guests']")
     //@FindBy(css = "div ._1ir6ymk span")
     public WebElementFacade numberOfGuests;
+
+    @FindBy(css = "div .guest-label span[class^='guest-label__text guest-label__text-infants']")
+    public WebElementFacade numberOfBabies;
 
     @FindBy(css = "div ._ni9axhe ._121z06r2 ._j1kt73")
     //@FindBy(css = "._j44qhm ._1d3ext9m")

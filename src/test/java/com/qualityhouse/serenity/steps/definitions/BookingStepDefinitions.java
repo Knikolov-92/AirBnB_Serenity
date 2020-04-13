@@ -25,6 +25,7 @@ public class BookingStepDefinitions {
     private HomePage homePage;
     private OffersPage offersPage;
     private int sumTotalGuests;
+    private int sumTotalBabies;
     private String offerPrice;
     private WebDriver driver = getDriver();
     @Steps
@@ -49,7 +50,8 @@ public class BookingStepDefinitions {
         String kids = data.get(0).get("kids");
         String babies = data.get(0).get("babies");
 
-        this.sumTotalGuests = Integer.parseInt(adults) + Integer.parseInt(kids) + Integer.parseInt(babies);
+        this.sumTotalGuests = Integer.parseInt(adults) + Integer.parseInt(kids);
+        this.sumTotalBabies = Integer.parseInt(babies);
 
         yakim.entersReservationLocation(location);
         yakim.picksCheckInCheckOutDates(checkIn, checkOut);
@@ -82,22 +84,43 @@ public class BookingStepDefinitions {
 
         Actions actions = new Actions(driver);
         String loopElement = "";
-        List<WebElementFacade> listOfStarsPrices = offersPage.findAll(OFFERS_STAR_PRICE_LOCATOR);
+        boolean correctOfferFound = false;
+        String lastPage = yakim.getsLastPageNumberWithOffers();
+        String currentPage = "";
+        int strLen = 0;
 
-        for(int i = 0; i < listOfStarsPrices.size(); i++) {
+        while( !(correctOfferFound) ) {
 
-            loopElement = listOfStarsPrices.get(i).getText().trim().substring(0,3);
-            System.out.println("Element(" +i +") =" +loopElement);
+            List<WebElementFacade> listOfStarsPrices = offersPage.findAll(OFFERS_STAR_PRICE_LOCATOR);
+            currentPage = yakim.getsCurrentPageNumberWithOffers();
 
-                if (loopElement.equals(stars.trim()) ) {
+            for (int i = 0; i < listOfStarsPrices.size(); i++) {
 
+                loopElement = listOfStarsPrices.get(i).getText().trim().substring(0, 3);
+                System.out.println("Element(" + i + ") = " + loopElement);
+
+                if (loopElement.equals(stars.trim())) {
+
+                    correctOfferFound = true;
                     bobi.movesPointerToElement(listOfStarsPrices.get(i + 2));
-                    this.offerPrice = listOfStarsPrices.get(i + 1).getText().substring(0,5).trim();
-                    System.out.println(this.offerPrice);
+                    strLen = listOfStarsPrices.get(i + 1).getText().length();
+                    this.offerPrice = listOfStarsPrices.get(i + 1).getText().substring(0, strLen - 4).trim();
+                    System.out.println("expected booking price: " +this.offerPrice);
                     bobi.movesPointerToElement(listOfStarsPrices.get(i));
                     actions.click().perform();
                     break;
                 }
+            }
+            if(!(currentPage.equals(lastPage)) && !(correctOfferFound) ) {
+
+                yakim.clicksOnNextOffersResultPage();
+                listOfStarsPrices.clear();
+
+            } else if(currentPage.equals(lastPage) && !(correctOfferFound) )  {
+
+                correctOfferFound = true;
+                System.out.println("No offers with current stars-criteria found.");
+            }
         }
     }
 
@@ -105,7 +128,7 @@ public class BookingStepDefinitions {
     public void johnShouldSeeTheSummaryOfTheReservation() throws InterruptedException {
 
         yakim.checksSummaryDates();
-        yakim.checksSummaryNumberOfGuests(this.sumTotalGuests);
+        yakim.checksSummaryNumberOfGuests(this.sumTotalGuests, this.sumTotalBabies);
         yakim.checksSummaryTotalPrice(this.offerPrice);
     }
 
@@ -114,7 +137,7 @@ public class BookingStepDefinitions {
     public void johnShouldSeeTheOffersForTheLocation(String expectedPlace) {
 
         String offersHeading = offersPage.offersHeadingInfoText.getText();
-        assertThat(offersHeading).isEqualTo("Stays in " +expectedPlace);
+        assertThat(offersHeading).isEqualTo("Престои в района на " +expectedPlace);
         System.out.println(offersHeading);
     }
 

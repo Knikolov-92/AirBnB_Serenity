@@ -66,7 +66,7 @@ public class BookingActions {
         String monthEnd = endDateArray[1].toLowerCase();
         String yearEnd = endDateArray[2];
 //print dates ------------------------------------------------------------------------------
-        System.out.println("current date: " +currentDateFormatted +",start: " +startDateFormatted+ ",end: " +endDateFormatted );
+        System.out.println("current date: " +currentDateFormatted +", start: " +startDateFormatted+ ", end: " +endDateFormatted );
 //set start/end date to check in summary page
         this.vacationStartDate = bookStart.format(DateTimeFormatter.ofPattern("M/d/yyyy"));
         this.vacationEndDate = bookEnd.format(DateTimeFormatter.ofPattern("M/d/yyyy"));
@@ -212,18 +212,26 @@ public class BookingActions {
         softly.assertThat(actualStartDate).isEqualTo(this.vacationStartDate);
 
         System.out.println("End_day:" +this.vacationEndDate);
-        System.out.println("Actual start_date:" +actualEndDate);
+        System.out.println("Actual end_date:" +actualEndDate);
         softly.assertThat(actualEndDate).isEqualTo(this.vacationEndDate);
 
         softly.assertAll();
     }
 
     @Step
-    public void checksSummaryNumberOfGuests(int expectedNumberOfGuests) {
+    public void checksSummaryNumberOfGuests(int expectedNumberOfGuests, int expectedNumberOfBabies) {
 
-        String actualNumberOfGuests = summaryPage.numberOfGuests.getText().substring(0, 1);
-        System.out.println("Actual number of guests: " +actualNumberOfGuests);
-        assertThat(actualNumberOfGuests).isEqualTo(Integer.toString(expectedNumberOfGuests));
+        if(expectedNumberOfGuests > 0) {
+            String actualNumberOfGuests = summaryPage.numberOfGuests.getText().substring(0, 1);
+            System.out.println("Actual number of guests: " + actualNumberOfGuests);
+            assertThat(actualNumberOfGuests).isEqualTo(Integer.toString(expectedNumberOfGuests));
+        }
+
+        if(expectedNumberOfBabies > 0) {
+            String actualNumberOfBabies = summaryPage.numberOfBabies.getText().substring(0, 1);
+            System.out.println("Actual number of babies: " + actualNumberOfBabies);
+            assertThat(actualNumberOfBabies).isEqualTo(Integer.toString(expectedNumberOfBabies));
+        }
     }
 
     @Step
@@ -244,7 +252,7 @@ public class BookingActions {
                     actualTaxText += value;
                 }
             sumTotal += Integer.parseInt(actualTaxText);
-            System.out.println("+" +actualTaxText +"current sum = " +sumTotal);
+            System.out.println("+" +actualTaxText +"; current sum = " +sumTotal);
             actualTaxText = "";
 
         }
@@ -257,17 +265,45 @@ public class BookingActions {
             System.out.println("-" +actualDiscountText +", currernt sum =" +sumTotal);
         }
 
-        String[] totalPriceArr = summaryPage.totalPrice.getText().trim().substring(1).split(" ");
+        String[] totalPriceArr = summaryPage.totalPrice.getText().trim().split(" ");
         String totalPriceText = "";
             for(String value : totalPriceArr) {
                 totalPriceText += value.trim();
             }
 
-        System.out.println("expected: "+sumTotal +", actual: " +totalPriceText);
+        System.out.println("expected: " +euroSymbol +sumTotal +", actual: " +totalPriceText);
 
-        softly.assertThat(Integer.parseInt(totalPriceText) ).isEqualTo(sumTotal);
-        softly.assertThat(euroSymbol + totalPriceText).isEqualTo(euroSymbol + (Integer.toString(sumTotal)));
-        softly.assertThat(euroSymbol + totalPriceText).isEqualTo(valueToCheck);
+        softly.assertThat(Integer.parseInt(totalPriceText.substring(1)) ).isEqualTo(sumTotal);
+        softly.assertThat(totalPriceText).isEqualTo(euroSymbol + (Integer.toString(sumTotal)));
+        softly.assertThat(totalPriceText).isEqualTo(valueToCheck);
         softly.assertAll();
+    }
+
+    public void clicksOnNextOffersResultPage() throws InterruptedException {
+
+        List<WebElementFacade> resultPaginationButtons =
+                offersPage.findAll(OFFERS_SEARCH_RESULT_BUTTON_LIST_LOCATOR);
+        int lastIndexOfList = resultPaginationButtons.size() - 1;
+
+        try {
+            ilio.clicksOn(resultPaginationButtons.get(lastIndexOfList));
+        } catch (NoSuchElementException e) {
+            System.out.println("Button 'Next-page' not found, no more offers to display");
+        }
+    }
+
+    public String getsCurrentPageNumberWithOffers() {
+
+        String currentPageNumberString = offersPage.currentNumberOfPageWithOffers.getText().trim();
+        System.out.println("Current page with offers: " +currentPageNumberString);
+        return  currentPageNumberString;
+    }
+
+    public String getsLastPageNumberWithOffers() {
+
+        List<WebElementFacade> pageLinkButtons = offersPage.findAll(OFFERS_SEARCH_RESULT_LAST_PAGE_LOCATOR);
+        String lastPageNumberString = pageLinkButtons.get(pageLinkButtons.size() - 1).getText().trim();
+        System.out.println("Last page with offers: " +lastPageNumberString);
+        return  lastPageNumberString;
     }
 }
