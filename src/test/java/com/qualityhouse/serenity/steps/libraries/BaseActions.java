@@ -3,13 +3,15 @@ package com.qualityhouse.serenity.steps.libraries;
 import com.qualityhouse.serenity.page_objects.HomePage;
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.Step;
-import net.thucydides.core.annotations.Steps;
-import net.thucydides.core.webdriver.ThucydidesWebDriverSupport;
+import org.jetbrains.annotations.Nullable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import static net.thucydides.core.webdriver.ThucydidesWebDriverSupport.getDriver;
 
 
@@ -33,7 +35,7 @@ public class BaseActions {
     }
 
     @Step
-    public void entersStringInField(WebElementFacade inputField, String text) {
+    public void entersTextInField(WebElementFacade inputField, String text) {
 
         inputField.waitUntilVisible().type(text);
     }
@@ -49,7 +51,24 @@ public class BaseActions {
     public void scrollsDownThePage() throws InterruptedException {
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("window.scrollBy(0,700)");
+        js.executeScript("window.scrollBy(0,500)");
         Thread.sleep(500);
     }
+
+    public LocalDate getsCurrentDatePlus(int daysToAdd) {
+
+        LocalDate currentDate = LocalDate.now();
+        return currentDate.plusDays(daysToAdd);
+    }
+
+    public String getsDateFormatted(LocalDate dateToFormat, String formatPattern, @Nullable Locale locale) {
+
+        if(locale != null) {
+            return dateToFormat.format(DateTimeFormatter.ofPattern(formatPattern, locale) );
+        }
+        else {
+            return dateToFormat.format(DateTimeFormatter.ofPattern(formatPattern) );
+        }
+    }
+
 }

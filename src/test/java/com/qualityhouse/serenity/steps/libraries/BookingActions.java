@@ -9,7 +9,6 @@ import net.thucydides.core.annotations.Steps;
 import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.WebDriver;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.qualityhouse.serenity.page_objects.HomePage.*;
@@ -30,91 +29,51 @@ public class BookingActions {
 
     @Steps
     private BaseActions ilio;
-
-    @Step
-    public void entersReservationLocation(String location) {
-
-        //Actions actions = new Actions(driver);
-        ilio.entersStringInField(homePage.whereInputField, location);
-        //actions.sendKeys(Keys.ENTER).perform();
-    }
+    @Steps
+    private HomepageActions niki;
 
     @Step
     public void picksCheckInCheckOutDates(String checkIn, String checkOut) throws InterruptedException {
 
-//get current date --------------------------------------------------------------------------
-        LocalDate currentDate = LocalDate.now();
-        String currentDateFormatted = currentDate.format
-                (DateTimeFormatter.ofPattern("d/MMMM/yyyy", Locale.ENGLISH));
-        String[] currentDateArray = currentDateFormatted.split("/");
-        String monthCurrent = currentDateArray[1].toLowerCase();
-        String yearCurrent = currentDateArray[2];
-//get start date ----------------------------------------------------------------------------
-        LocalDate bookStart = currentDate.plusDays(Integer.parseInt(checkIn));
-        String startDateFormatted = bookStart.format
-                (DateTimeFormatter.ofPattern("d/MMMM/yyyy", Locale.ENGLISH));
+        String patternDefault = "d/MMMM/yyyy";
+        String patternSummary = "M/d/yyyy";
+        Locale localeDefault = Locale.ENGLISH;
+//get current date ----------------------------------------------------------------------------------------
+        LocalDate currentDate = ilio.getsCurrentDatePlus(0);
+        String currentDateFormatted = ilio.getsDateFormatted(currentDate, patternDefault, localeDefault);
+
+//get start date ------------------------------------------------------------------------------------------
+        LocalDate bookStart = ilio.getsCurrentDatePlus(Integer.parseInt(checkIn));
+        String startDateFormatted = ilio.getsDateFormatted(bookStart, patternDefault, localeDefault);
         String[] startDateArray = startDateFormatted.split("/");
         String dayStart = startDateArray[0];
         String monthStart = startDateArray[1].toLowerCase();
         String yearStart = startDateArray[2];
-//get end date ------------------------------------------------------------------------------
-        LocalDate bookEnd = bookStart.plusDays(Integer.parseInt(checkOut));
-        String endDateFormatted = bookEnd.format
-                (DateTimeFormatter.ofPattern("d/MMMM/yyyy", Locale.ENGLISH));
+
+//get end date --------------------------------------------------------------------------------------------
+        LocalDate bookEnd = ilio.getsCurrentDatePlus(Integer.parseInt(checkOut));
+        String endDateFormatted = ilio.getsDateFormatted(bookEnd, patternDefault, localeDefault);
         String[] endDateArray = endDateFormatted.split("/");
         String dayEnd = endDateArray[0];
         String monthEnd = endDateArray[1].toLowerCase();
         String yearEnd = endDateArray[2];
-//print dates ------------------------------------------------------------------------------
-        System.out.println("current date: " +currentDateFormatted +", start: " +startDateFormatted+ ", end: " +endDateFormatted );
-//set start/end date to check in summary page
-        this.vacationStartDate = bookStart.format(DateTimeFormatter.ofPattern("M/d/yyyy"));
-        this.vacationEndDate = bookEnd.format(DateTimeFormatter.ofPattern("M/d/yyyy"));
-//check current calendar header------------------------------------------------------------------------------
-        String expectedCurrentMonthYearInCalendar = monthCurrent + " " + yearCurrent;
-        String actualCurrentMonthYearInCalendar = "";
 
-        ilio.clicksOn(homePage.checkInOutDate);
-        List<WebElementFacade> checkOutDays;
-        List<WebElementFacade> checkInDays;
-        List<WebElementFacade> monthYearTextList = homePage.findAll(CALENDAR_MONTH_YEAR_TEXT_LOCATOR);
-        actualCurrentMonthYearInCalendar = monthYearTextList.get(1).getText().toLowerCase();
-        System.out.println("month+year expected is: " + expectedCurrentMonthYearInCalendar
-                + ", actual is: " + actualCurrentMonthYearInCalendar);
-        assertThat(actualCurrentMonthYearInCalendar).isEqualTo(expectedCurrentMonthYearInCalendar);
-//select start date -----------------------------------------------------------------------------------------
+//print dates ---------------------------------------------------------------------------------------------
+        System.out.println("current date: " +currentDateFormatted
+                +", start: " +startDateFormatted+ ", end: " +endDateFormatted );
 
-        if((monthStart +" " +yearStart).equals(actualCurrentMonthYearInCalendar) ) {
+//set start/end date to check in summary page--------------------------------------------------------------
+        this.vacationStartDate = ilio.getsDateFormatted(bookStart, patternSummary, null);
+        this.vacationEndDate = ilio.getsDateFormatted(bookEnd, patternSummary, null);
 
-           checkInDays = homePage.findAll(CALENDAR_DAY_CURRENT_MONTH_LOCATOR);
-        }else
-            {
-                checkInDays = homePage.findAll(CALENDAR_DAY_NEXT_MONTH_LOCATOR);
-        }
-            for (WebElementFacade checkInDay : checkInDays) {
+//click on CheckInOut button ------------------------------------------------------------------------------
+        ilio.clicksOn(homePage.checkInOutDateButton);
 
-                if (checkInDay.getText().trim().equals(dayStart)) {
+//select start date ---------------------------------------------------------------------------------------
+        niki.selectsCheckInOutDate(dayStart, monthStart, yearStart);
 
-                    ilio.clicksOn(checkInDay);
-                    break;
-                }
-            }
 //select end date -----------------------------------------------------------------------------------------
-        if((monthEnd +" " +yearEnd).equals(actualCurrentMonthYearInCalendar) ) {
-
-            checkOutDays = homePage.findAll(CALENDAR_DAY_CURRENT_MONTH_LOCATOR);
-        }else
-            {
-                checkOutDays = homePage.findAll(CALENDAR_DAY_NEXT_MONTH_LOCATOR);
-        }
-            for (WebElementFacade checkOutDay : checkOutDays) {
-
-                if (checkOutDay.getText().trim().equals(dayEnd)) {
-
-                    ilio.clicksOn(checkOutDay);
-                    break;
-                }
-            }
+        niki.selectsCheckInOutDate(dayEnd, monthEnd, yearEnd);
     }
 
     @Step
@@ -165,8 +124,8 @@ public class BookingActions {
     public void entersPriceRange(String minPrice, String maxPrice) throws InterruptedException {
 
         ilio.clicksOn(offersPage.filterPriceButton);
-        ilio.entersStringInField(offersPage.inputFieldPriceMin, minPrice);
-        ilio.entersStringInField(offersPage.inputFieldPriceMax, maxPrice);
+        ilio.entersTextInField(offersPage.inputFieldPriceMin, minPrice);
+        ilio.entersTextInField(offersPage.inputFieldPriceMax, maxPrice);
         ilio.clicksOn(offersPage.filterPriceSaveButton);
     }
 

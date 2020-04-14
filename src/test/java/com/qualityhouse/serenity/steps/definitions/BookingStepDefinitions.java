@@ -4,6 +4,7 @@ import com.qualityhouse.serenity.page_objects.HomePage;
 import com.qualityhouse.serenity.page_objects.OffersPage;
 import com.qualityhouse.serenity.steps.libraries.BaseActions;
 import com.qualityhouse.serenity.steps.libraries.BookingActions;
+import com.qualityhouse.serenity.steps.libraries.HomepageActions;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -32,6 +33,8 @@ public class BookingStepDefinitions {
     private BookingActions yakim;
     @Steps
     private BaseActions bobi;
+    @Steps
+    private HomepageActions yana;
 
     @Given("^John is on the Home page$")
     public void johnIsOnTheHomePage() {
@@ -53,7 +56,7 @@ public class BookingStepDefinitions {
         this.sumTotalGuests = Integer.parseInt(adults) + Integer.parseInt(kids);
         this.sumTotalBabies = Integer.parseInt(babies);
 
-        yakim.entersReservationLocation(location);
+        yana.entersReservationLocation(location);
         yakim.picksCheckInCheckOutDates(checkIn, checkOut);
         yakim.picksGuestsOptions(adults, kids, babies);
         bobi.clicksOn(homePage.bookingSearchButton);
@@ -102,7 +105,7 @@ public class BookingStepDefinitions {
                 if (loopElement.equals(stars.trim())) {
 
                     correctOfferFound = true;
-                    bobi.movesPointerToElement(listOfStarsPrices.get(i + 2));
+                    bobi.movesPointerToElement(listOfStarsPrices.get(i + 1));
                     strLen = listOfStarsPrices.get(i + 1).getText().length();
                     this.offerPrice = listOfStarsPrices.get(i + 1).getText().substring(0, strLen - 4).trim();
                     System.out.println("expected booking price: " +this.offerPrice);
@@ -137,7 +140,7 @@ public class BookingStepDefinitions {
     public void johnShouldSeeTheOffersForTheLocation(String expectedPlace) {
 
         String offersHeading = offersPage.offersHeadingInfoText.getText();
-        assertThat(offersHeading).isEqualTo("Престои в района на " +expectedPlace);
+        assertThat(offersHeading).startsWith("Престои в района на ");
         System.out.println(offersHeading);
     }
 
