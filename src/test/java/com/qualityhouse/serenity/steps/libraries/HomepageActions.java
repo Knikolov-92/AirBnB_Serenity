@@ -13,7 +13,7 @@ public class HomepageActions {
 
     private HomePage homePage;
     @Steps
-    private BaseActions kolio;
+    private BaseActions rumi;
 
     public void selectsCheckInOutDate(String day, String month, String year) throws InterruptedException {
 
@@ -38,7 +38,7 @@ public class HomepageActions {
                 break;
             }
             else {
-                kolio.clicksOn(homePage.bookingNextMonthButton);
+                rumi.clicksOn(homePage.bookingNextMonthButton);
                 monthYearTextList.clear();
             }
         }
@@ -47,7 +47,7 @@ public class HomepageActions {
 
             if (checkInDay.getText().trim().equals(day)) {
 
-                kolio.clicksOn(checkInDay);
+                rumi.clicksOn(checkInDay);
                 break;
             }
         }
@@ -57,7 +57,7 @@ public class HomepageActions {
     public void entersReservationLocation(String location) {
 
         //Actions actions = new Actions(driver);
-        kolio.entersTextInField(homePage.whereInputField, location);
+        rumi.entersTextInField(homePage.whereInputField, location);
         //actions.sendKeys(Keys.ENTER).perform();
     }
 

@@ -44,7 +44,7 @@ public class BaseActions {
     public void movesPointerToElement(WebElementFacade element) throws InterruptedException {
 
         Actions actions = new Actions(driver);
-        actions.moveToElement(element,0, 5).perform();
+        actions.moveToElement(element,0, 3).perform();
         Thread.sleep(1000);
     }
 

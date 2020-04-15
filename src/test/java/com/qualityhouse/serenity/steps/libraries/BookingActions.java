@@ -8,6 +8,8 @@ import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.Steps;
 import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -26,11 +28,14 @@ public class BookingActions {
     private SoftAssertions softly = new SoftAssertions();
     private String vacationStartDate;
     private String vacationEndDate;
+    private String offerPrice;
 
     @Steps
-    private BaseActions ilio;
+    private BaseActions rumi;
     @Steps
-    private HomepageActions niki;
+    private HomepageActions vasi;
+    @Steps
+    private OfferspageActions didi;
 
     @Step
     public void picksCheckInCheckOutDates(String checkIn, String checkOut) throws InterruptedException {
@@ -39,20 +44,20 @@ public class BookingActions {
         String patternSummary = "M/d/yyyy";
         Locale localeDefault = Locale.ENGLISH;
 //get current date ----------------------------------------------------------------------------------------
-        LocalDate currentDate = ilio.getsCurrentDatePlus(0);
-        String currentDateFormatted = ilio.getsDateFormatted(currentDate, patternDefault, localeDefault);
+        LocalDate currentDate = rumi.getsCurrentDatePlus(0);
+        String currentDateFormatted = rumi.getsDateFormatted(currentDate, patternDefault, localeDefault);
 
 //get start date ------------------------------------------------------------------------------------------
-        LocalDate bookStart = ilio.getsCurrentDatePlus(Integer.parseInt(checkIn));
-        String startDateFormatted = ilio.getsDateFormatted(bookStart, patternDefault, localeDefault);
+        LocalDate bookStart = rumi.getsCurrentDatePlus(Integer.parseInt(checkIn));
+        String startDateFormatted = rumi.getsDateFormatted(bookStart, patternDefault, localeDefault);
         String[] startDateArray = startDateFormatted.split("/");
         String dayStart = startDateArray[0];
         String monthStart = startDateArray[1].toLowerCase();
         String yearStart = startDateArray[2];
 
 //get end date --------------------------------------------------------------------------------------------
-        LocalDate bookEnd = ilio.getsCurrentDatePlus(Integer.parseInt(checkOut));
-        String endDateFormatted = ilio.getsDateFormatted(bookEnd, patternDefault, localeDefault);
+        LocalDate bookEnd = rumi.getsCurrentDatePlus(Integer.parseInt(checkOut));
+        String endDateFormatted = rumi.getsDateFormatted(bookEnd, patternDefault, localeDefault);
         String[] endDateArray = endDateFormatted.split("/");
         String dayEnd = endDateArray[0];
         String monthEnd = endDateArray[1].toLowerCase();
@@ -63,39 +68,39 @@ public class BookingActions {
                 +", start: " +startDateFormatted+ ", end: " +endDateFormatted );
 
 //set start/end date to check in summary page--------------------------------------------------------------
-        this.vacationStartDate = ilio.getsDateFormatted(bookStart, patternSummary, null);
-        this.vacationEndDate = ilio.getsDateFormatted(bookEnd, patternSummary, null);
+        this.vacationStartDate = rumi.getsDateFormatted(bookStart, patternSummary, null);
+        this.vacationEndDate = rumi.getsDateFormatted(bookEnd, patternSummary, null);
 
 //click on CheckInOut button ------------------------------------------------------------------------------
-        ilio.clicksOn(homePage.checkInOutDateButton);
+        rumi.clicksOn(homePage.checkInOutDateButton);
 
 //select start date ---------------------------------------------------------------------------------------
-        niki.selectsCheckInOutDate(dayStart, monthStart, yearStart);
+        vasi.selectsCheckInOutDate(dayStart, monthStart, yearStart);
 
 //select end date -----------------------------------------------------------------------------------------
-        niki.selectsCheckInOutDate(dayEnd, monthEnd, yearEnd);
+        vasi.selectsCheckInOutDate(dayEnd, monthEnd, yearEnd);
     }
 
     @Step
     public void picksGuestsOptions(String adultsNumber, String kidsNumber, String babiesNumber)
             throws InterruptedException {
 
-        ilio.clicksOn(homePage.guestsPickButton);
+        rumi.clicksOn(homePage.guestsPickButton);
         List<WebElementFacade> guestsAddButtons = homePage.findAll(GUESTS_ADD_BUTTON_LOCATOR);
 
         for (int n = 1; n <= Integer.parseInt(adultsNumber); n++) {
 
-            ilio.clicksOn(guestsAddButtons.get(0));
+            rumi.clicksOn(guestsAddButtons.get(0));
         }
 
         for (int n = 1; n <= Integer.parseInt(kidsNumber); n++) {
 
-            ilio.clicksOn(guestsAddButtons.get(1));
+            rumi.clicksOn(guestsAddButtons.get(1));
         }
 
         for (int n = 1; n <= Integer.parseInt(babiesNumber); n++) {
 
-            ilio.clicksOn(guestsAddButtons.get(2));
+            rumi.clicksOn(guestsAddButtons.get(2));
         }
 
         //ilio.clicksOn(homePage.guestsSaveButton);
@@ -105,8 +110,8 @@ public class BookingActions {
     public void picksCurrency(String targetCurrency) throws InterruptedException {
 
         String loopElement = "";
-        ilio.movesPointerToElement(offersPage.currencyPickButton);
-        ilio.clicksOn(offersPage.currencyPickButton);
+        rumi.movesPointerToElement(offersPage.currencyPickButton);
+        rumi.clicksOn(offersPage.currencyPickButton);
         List<WebElementFacade> currencyPickList = offersPage.findAll(CURRENCY_PICK_LIST_LOCATOR);
 
         for(int i = 0; i < currencyPickList.size(); i++) {
@@ -114,7 +119,7 @@ public class BookingActions {
             loopElement = currencyPickList.get(i).getText().toUpperCase().substring(0, 3);
             System.out.println("current currency is: " +loopElement);
             if(loopElement.equals(targetCurrency) ) {
-                ilio.clicksOn(currencyPickList.get(i) );
+                rumi.clicksOn(currencyPickList.get(i) );
                 break;
             }
         }
@@ -123,36 +128,36 @@ public class BookingActions {
     @Step
     public void entersPriceRange(String minPrice, String maxPrice) throws InterruptedException {
 
-        ilio.clicksOn(offersPage.filterPriceButton);
-        ilio.entersTextInField(offersPage.inputFieldPriceMin, minPrice);
-        ilio.entersTextInField(offersPage.inputFieldPriceMax, maxPrice);
-        ilio.clicksOn(offersPage.filterPriceSaveButton);
+        rumi.clicksOn(offersPage.filterPriceButton);
+        rumi.entersTextInField(offersPage.inputFieldPriceMin, minPrice);
+        rumi.entersTextInField(offersPage.inputFieldPriceMax, maxPrice);
+        rumi.clicksOn(offersPage.filterPriceSaveButton);
     }
 
     public void choosesMoreFilterOptions(String numBaths, String airConYesNo, String hotTubeYesNo)
             throws InterruptedException {
 
-        ilio.clicksOn(offersPage.filterMoreOptionsButton);
+        rumi.clicksOn(offersPage.filterMoreOptionsButton);
         WebElementFacade airConBox = offersPage.airConditionerCheckbox;
         WebElementFacade hotTubeBox = offersPage.hotTubeCheckbox;
 
         for(int i = 1; i <= Integer.parseInt(numBaths); i++) {
 
-            ilio.clicksOn(offersPage.bathroomsAddButton);
+            rumi.clicksOn(offersPage.bathroomsAddButton);
         }
         assertThat(offersPage.bathroomCurrentNumber.getText() ).isEqualTo(numBaths);
 
-        ilio.movesPointerToElement(airConBox);
+        rumi.movesPointerToElement(airConBox);
         if(airConYesNo.equalsIgnoreCase("yes") ) {
-            ilio.clicksOn(airConBox);
+            rumi.clicksOn(airConBox);
         }
 
-        ilio.movesPointerToElement(hotTubeBox);
+        rumi.movesPointerToElement(hotTubeBox);
         if(hotTubeYesNo.equalsIgnoreCase("yes") ) {
-            ilio.clicksOn(hotTubeBox);
+            rumi.clicksOn(hotTubeBox);
         }
 
-        ilio.clicksOn(offersPage.filterMoreOptionsSaveButton);
+        rumi.clicksOn(offersPage.filterMoreOptionsSaveButton);
     }
 
     @Step
@@ -161,7 +166,7 @@ public class BookingActions {
         ArrayList<String> newTab = new ArrayList<String>(driver.getWindowHandles());
         driver.switchTo().window(newTab.get(1));
         Thread.sleep(2000);
-        ilio.movesPointerToElement(summaryPage.totalPrice);
+        rumi.movesPointerToElement(summaryPage.totalPrice);
 
         String actualStartDate = summaryPage.checkInDate.getText().trim();
         String actualEndDate = summaryPage.checkOutDate.getText().trim();
@@ -194,7 +199,7 @@ public class BookingActions {
     }
 
     @Step
-    public void checksSummaryTotalPrice(String valueToCheck) {
+    public void checksSummaryTotalPrice() {
 
         Currency euro = Currency.getInstance("EUR");
         String euroSymbol = euro.getSymbol();
@@ -234,35 +239,53 @@ public class BookingActions {
 
         softly.assertThat(Integer.parseInt(totalPriceText.substring(1)) ).isEqualTo(sumTotal);
         softly.assertThat(totalPriceText).isEqualTo(euroSymbol + (Integer.toString(sumTotal)));
-        softly.assertThat(totalPriceText).isEqualTo(valueToCheck);
+        softly.assertThat(totalPriceText).isEqualTo(this.offerPrice);
         softly.assertAll();
     }
 
-    public void clicksOnNextOffersResultPage() throws InterruptedException {
+    @Step
+    public void searchesForSuitablePlace(String starRating) throws InterruptedException {
 
-        List<WebElementFacade> resultPaginationButtons =
-                offersPage.findAll(OFFERS_SEARCH_RESULT_BUTTON_LIST_LOCATOR);
-        int lastIndexOfList = resultPaginationButtons.size() - 1;
+        Actions actions = new Actions(driver);
+        String loopElement = "";
+        boolean correctOfferFound = false;
+        String lastPage = didi.getsLastPageNumberWithOffers();
+        String currentPage = "";
+        int strLen = 0;
 
-        try {
-            ilio.clicksOn(resultPaginationButtons.get(lastIndexOfList));
-        } catch (NoSuchElementException e) {
-            System.out.println("Button 'Next-page' not found, no more offers to display");
+        while( !(correctOfferFound) ) {
+
+            List<WebElementFacade> listOfStarsPrices = offersPage.findAll(OFFERS_STAR_PRICE_LOCATOR);
+            currentPage = didi.getsCurrentPageNumberWithOffers();
+
+            for (int i = 0; i < listOfStarsPrices.size(); i++) {
+
+                loopElement = listOfStarsPrices.get(i).getText().trim().substring(0, 3);
+                System.out.println("Element(" + i + ") = " + loopElement);
+
+                if (loopElement.equals(starRating.trim())) {
+
+                    correctOfferFound = true;
+                    rumi.movesPointerToElement(listOfStarsPrices.get(i + 1));
+                    strLen = listOfStarsPrices.get(i + 1).getText().length();
+                    this.offerPrice = listOfStarsPrices.get(i + 1).getText().substring(0, strLen - 4).trim();
+                    System.out.println("expected booking price: " +this.offerPrice);
+                    rumi.movesPointerToElement(listOfStarsPrices.get(i));
+                    actions.click().perform();
+                    break;
+                }
+            }
+            if(!(currentPage.equals(lastPage)) && !(correctOfferFound) ) {
+
+                didi.clicksOnNextOffersResultPage();
+                listOfStarsPrices.clear();
+
+            } else if(currentPage.equals(lastPage) && !(correctOfferFound) )  {
+
+                correctOfferFound = true;
+                System.out.println("No offers with current stars-criteria found.");
+            }
         }
     }
 
-    public String getsCurrentPageNumberWithOffers() {
-
-        String currentPageNumberString = offersPage.currentNumberOfPageWithOffers.getText().trim();
-        System.out.println("Current page with offers: " +currentPageNumberString);
-        return  currentPageNumberString;
-    }
-
-    public String getsLastPageNumberWithOffers() {
-
-        List<WebElementFacade> pageLinkButtons = offersPage.findAll(OFFERS_SEARCH_RESULT_LAST_PAGE_LOCATOR);
-        String lastPageNumberString = pageLinkButtons.get(pageLinkButtons.size() - 1).getText().trim();
-        System.out.println("Last page with offers: " +lastPageNumberString);
-        return  lastPageNumberString;
-    }
 }

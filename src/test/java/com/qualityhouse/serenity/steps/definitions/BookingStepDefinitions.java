@@ -9,16 +9,12 @@ import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.Steps;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 import java.util.Map;
 
-import static com.qualityhouse.serenity.page_objects.OffersPage.*;
-import static net.thucydides.core.webdriver.ThucydidesWebDriverSupport.getDriver;
+import static com.qualityhouse.serenity.page_objects.OffersPage.OFFERSPAGE_HEADING_TITLE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BookingStepDefinitions {
@@ -27,14 +23,13 @@ public class BookingStepDefinitions {
     private OffersPage offersPage;
     private int sumTotalGuests;
     private int sumTotalBabies;
-    private String offerPrice;
-    private WebDriver driver = getDriver();
+
     @Steps
     private BookingActions yakim;
     @Steps
-    private BaseActions bobi;
+    private BaseActions rumi;
     @Steps
-    private HomepageActions yana;
+    private HomepageActions vasi;
 
     @Given("^John is on the Home page$")
     public void johnIsOnTheHomePage() {
@@ -56,7 +51,7 @@ public class BookingStepDefinitions {
         this.sumTotalGuests = Integer.parseInt(adults) + Integer.parseInt(kids);
         this.sumTotalBabies = Integer.parseInt(babies);
 
-        yana.entersReservationLocation(location);
+        vasi.entersReservationLocation(location);
         yakim.picksCheckInCheckOutDates(checkIn, checkOut);
         yakim.picksGuestsOptions(adults, kids, babies);
         bobi.clicksOn(homePage.bookingSearchButton);
@@ -82,49 +77,10 @@ public class BookingStepDefinitions {
         yakim.choosesMoreFilterOptions(numberOfBathrooms, airConditionerYesNo, hotTubeYesNo);
     }
 
-    @When("^John picks the first x-star-place: \"([^\"]*)\"$")
+    @When("^John picks the first \"([^\"]*)\"-star-place:$")
     public void johnPicksTheFirstXStarPlace(String stars) throws InterruptedException {
 
-        Actions actions = new Actions(driver);
-        String loopElement = "";
-        boolean correctOfferFound = false;
-        String lastPage = yakim.getsLastPageNumberWithOffers();
-        String currentPage = "";
-        int strLen = 0;
-
-        while( !(correctOfferFound) ) {
-
-            List<WebElementFacade> listOfStarsPrices = offersPage.findAll(OFFERS_STAR_PRICE_LOCATOR);
-            currentPage = yakim.getsCurrentPageNumberWithOffers();
-
-            for (int i = 0; i < listOfStarsPrices.size(); i++) {
-
-                loopElement = listOfStarsPrices.get(i).getText().trim().substring(0, 3);
-                System.out.println("Element(" + i + ") = " + loopElement);
-
-                if (loopElement.equals(stars.trim())) {
-
-                    correctOfferFound = true;
-                    bobi.movesPointerToElement(listOfStarsPrices.get(i + 1));
-                    strLen = listOfStarsPrices.get(i + 1).getText().length();
-                    this.offerPrice = listOfStarsPrices.get(i + 1).getText().substring(0, strLen - 4).trim();
-                    System.out.println("expected booking price: " +this.offerPrice);
-                    bobi.movesPointerToElement(listOfStarsPrices.get(i));
-                    actions.click().perform();
-                    break;
-                }
-            }
-            if(!(currentPage.equals(lastPage)) && !(correctOfferFound) ) {
-
-                yakim.clicksOnNextOffersResultPage();
-                listOfStarsPrices.clear();
-
-            } else if(currentPage.equals(lastPage) && !(correctOfferFound) )  {
-
-                correctOfferFound = true;
-                System.out.println("No offers with current stars-criteria found.");
-            }
-        }
+        yakim.searchesForSuitablePlace(stars);
     }
 
     @Then("^John should see the summary of the reservation$")
@@ -132,7 +88,7 @@ public class BookingStepDefinitions {
 
         yakim.checksSummaryDates();
         yakim.checksSummaryNumberOfGuests(this.sumTotalGuests, this.sumTotalBabies);
-        yakim.checksSummaryTotalPrice(this.offerPrice);
+        yakim.checksSummaryTotalPrice();
     }
 
 
@@ -140,7 +96,7 @@ public class BookingStepDefinitions {
     public void johnShouldSeeTheOffersForTheLocation(String expectedPlace) {
 
         String offersHeading = offersPage.offersHeadingInfoText.getText();
-        assertThat(offersHeading).startsWith("Престои в района на ");
+        assertThat(offersHeading).startsWith(OFFERSPAGE_HEADING_TITLE);
         System.out.println(offersHeading);
     }
 
