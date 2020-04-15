@@ -54,7 +54,7 @@ public class BookingStepDefinitions {
         vasi.entersReservationLocation(location);
         yakim.picksCheckInCheckOutDates(checkIn, checkOut);
         yakim.picksGuestsOptions(adults, kids, babies);
-        bobi.clicksOn(homePage.bookingSearchButton);
+        rumi.clicksOn(homePage.bookingSearchButton);
     }
 
     @When("^John selects a currency \"([^\"]*)\"$")
