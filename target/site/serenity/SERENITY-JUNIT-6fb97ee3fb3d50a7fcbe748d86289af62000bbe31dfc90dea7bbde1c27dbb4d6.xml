@@ -1,1 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?><testsuite errors="0" failures="0" name="Book a vacation" skipped="0" tests="2" time="144.49" timestamp="2020-04-15 11:34:12"><testcase name="John books a vacation at a place somewhere"/></testsuite>
+<?xml version="1.0" encoding="UTF-8"?><testsuite errors="1" failures="0" name="Book a vacation" skipped="0" tests="1" time="46.5" timestamp="2020-04-16 04:00:15"><testcase name="John books a vacation at a place somewhere"><error message="Timed out after 5 seconds. Element not found&#10;For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html&#10;Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'&#10;System info: host: 'DESKTOP-REDDEV', ip: '192.168.1.59', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '13.0.2'&#10;Driver info: driver.version: unknown&#10;For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html&#10;Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'&#10;System info: host: 'DESKTOP-REDDEV', ip: '192.168.1.59', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '13.0.2'&#10;Driver info: driver.version: unknown" type="org.openqa.selenium.NoSuchElementException">Timed out after 5 seconds. Element not found
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'DESKTOP-REDDEV', ip: '192.168.1.59', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '13.0.2'
+Driver info: driver.version: unknown
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'DESKTOP-REDDEV', ip: '192.168.1.59', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '13.0.2'
+Driver info: driver.version: unknown</error><system-err>Timed out after 5 seconds. Element not found
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'DESKTOP-REDDEV', ip: '192.168.1.59', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '13.0.2'
+Driver info: driver.version: unknown
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'DESKTOP-REDDEV', ip: '192.168.1.59', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '13.0.2'
+Driver info: driver.version: unknown&#13;
+com.qualityhouse.serenity.steps.libraries.BookingActions.checksSummaryDates(BookingActions.java:150)&#13;
+com.qualityhouse.serenity.steps.definitions.BookingStepDefinitions.johnShouldSeeTheSummaryOfTheReservation(BookingStepDefinitions.java:92)&#13;
+✽.The summary of the reservation should be displayed(features/vacationBooking.feature:15)&#13;
+</system-err></testcase></testsuite>

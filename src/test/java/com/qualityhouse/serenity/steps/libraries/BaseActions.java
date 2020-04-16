@@ -21,38 +21,38 @@ public class BaseActions {
     private WebDriver driver = getDriver();
 
     @Step
-    public void clicksOn(WebElementFacade buttonOrLink) throws InterruptedException {
+    public void clicksOn(WebElementFacade buttonOrLink) {
+
         buttonOrLink.waitUntilClickable().click();
-        Thread.sleep(1250);
     }
 
     @Step
-    public void clicksOn(final By locator) throws InterruptedException {
+    public void clicksOn(final By locator) {
+
         currentPage.find(locator)
                 .waitUntilClickable()
                 .click();
-        Thread.sleep(1250);
     }
 
     @Step
     public void entersTextInField(WebElementFacade inputField, String text) {
 
-        inputField.waitUntilVisible().type(text);
+        inputField.waitUntilEnabled().type(text);
     }
 
     @Step
-    public void movesPointerToElement(WebElementFacade element) throws InterruptedException {
+    public void movesPointerToElement(WebElementFacade element) {
 
         Actions actions = new Actions(driver);
+        element.waitUntilPresent();
         actions.moveToElement(element,0, 3).perform();
-        Thread.sleep(1000);
+        element.waitUntilVisible();
     }
 
-    public void scrollsDownThePage() throws InterruptedException {
+    public void scrollsDownThePage() {
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0,500)");
-        Thread.sleep(500);
     }
 
     public LocalDate getsCurrentDatePlus(int daysToAdd) {

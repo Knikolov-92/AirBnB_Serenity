@@ -4,7 +4,8 @@ import com.qualityhouse.serenity.page_objects.HomePage;
 import com.qualityhouse.serenity.page_objects.OffersPage;
 import com.qualityhouse.serenity.steps.libraries.BaseActions;
 import com.qualityhouse.serenity.steps.libraries.BookingActions;
-import com.qualityhouse.serenity.steps.libraries.HomepageActions;
+import com.qualityhouse.serenity.steps.libraries.HomeActions;
+import com.qualityhouse.serenity.steps.libraries.OffersActions;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -29,7 +30,9 @@ public class BookingStepDefinitions {
     @Steps
     private BaseActions rumi;
     @Steps
-    private HomepageActions vasi;
+    private HomeActions vasi;
+    @Steps
+    private OffersActions didi;
 
     @Given("^John is on the Home page$")
     public void johnIsOnTheHomePage() {
@@ -38,7 +41,7 @@ public class BookingStepDefinitions {
     }
 
     @When("^John submits booking options:$")
-    public void johnSubmitsBookingOptions(DataTable inputData) throws InterruptedException {
+    public void johnSubmitsBookingOptions(DataTable inputData) {
 
         List<Map<String, String>> data = inputData.asMaps(String.class, String.class);
         String location = data.get(0).get("where");
@@ -58,13 +61,13 @@ public class BookingStepDefinitions {
     }
 
     @When("^John selects a currency \"([^\"]*)\"$")
-    public void johnSelectsACurrency(String expectedCurrency) throws InterruptedException {
+    public void johnSelectsACurrency(String expectedCurrency) {
 
-        yakim.picksCurrency(expectedCurrency);
+        didi.picksCurrency(expectedCurrency);
     }
 
     @When("^John filters his preferences:$")
-    public void johnFiltersHisPreferences(DataTable inputTable) throws InterruptedException {
+    public void johnFiltersHisPreferences(DataTable inputTable) {
 
         List<Map<String, String>> data = inputTable.asMaps(String.class, String.class);
         String priceMin = data.get(0).get("price_min");
@@ -78,12 +81,12 @@ public class BookingStepDefinitions {
     }
 
     @When("^John picks the first \"([^\"]*)\"-star-place:$")
-    public void johnPicksTheFirstXStarPlace(String stars) throws InterruptedException {
+    public void johnPicksTheFirstXStarPlace(String stars) {
 
-        yakim.searchesForSuitablePlace(stars);
+        yakim.searchesForSuitablePlace(Float.parseFloat(stars));
     }
 
-    @Then("^John should see the summary of the reservation$")
+    @Then("^The summary of the reservation should be displayed$")
     public void johnShouldSeeTheSummaryOfTheReservation() throws InterruptedException {
 
         yakim.checksSummaryDates();
@@ -91,15 +94,11 @@ public class BookingStepDefinitions {
         yakim.checksSummaryTotalPrice();
     }
 
-
-    @Then("^John should see the offers for the location: \"([^\"]*)\"$")
-    public void johnShouldSeeTheOffersForTheLocation(String expectedPlace) {
+    @Then("^The offers for the location are displayed$")
+    public void theOffersForTheLocationAreDisplayed() {
 
         String offersHeading = offersPage.offersHeadingInfoText.getText();
         assertThat(offersHeading).startsWith(OFFERSPAGE_HEADING_TITLE);
         System.out.println(offersHeading);
     }
-
-
-
 }

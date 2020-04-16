@@ -33,12 +33,12 @@ public class BookingActions {
     @Steps
     private BaseActions rumi;
     @Steps
-    private HomepageActions vasi;
+    private HomeActions vasi;
     @Steps
-    private OfferspageActions didi;
+    private OffersActions didi;
 
     @Step
-    public void picksCheckInCheckOutDates(String checkIn, String checkOut) throws InterruptedException {
+    public void picksCheckInCheckOutDates(String checkIn, String checkOut) {
 
         String patternDefault = "d/MMMM/yyyy";
         String patternSummary = "M/d/yyyy";
@@ -82,8 +82,7 @@ public class BookingActions {
     }
 
     @Step
-    public void picksGuestsOptions(String adultsNumber, String kidsNumber, String babiesNumber)
-            throws InterruptedException {
+    public void picksGuestsOptions(String adultsNumber, String kidsNumber, String babiesNumber) {
 
         rumi.clicksOn(homePage.guestsPickButton);
         List<WebElementFacade> guestsAddButtons = homePage.findAll(GUESTS_ADD_BUTTON_LOCATOR);
@@ -107,26 +106,7 @@ public class BookingActions {
     }
 
     @Step
-    public void picksCurrency(String targetCurrency) throws InterruptedException {
-
-        String loopElement = "";
-        rumi.movesPointerToElement(offersPage.currencyPickButton);
-        rumi.clicksOn(offersPage.currencyPickButton);
-        List<WebElementFacade> currencyPickList = offersPage.findAll(CURRENCY_PICK_LIST_LOCATOR);
-
-        for(int i = 0; i < currencyPickList.size(); i++) {
-
-            loopElement = currencyPickList.get(i).getText().toUpperCase().substring(0, 3);
-            System.out.println("current currency is: " +loopElement);
-            if(loopElement.equals(targetCurrency) ) {
-                rumi.clicksOn(currencyPickList.get(i) );
-                break;
-            }
-        }
-    }
-
-    @Step
-    public void entersPriceRange(String minPrice, String maxPrice) throws InterruptedException {
+    public void entersPriceRange(String minPrice, String maxPrice) {
 
         rumi.clicksOn(offersPage.filterPriceButton);
         rumi.entersTextInField(offersPage.inputFieldPriceMin, minPrice);
@@ -134,8 +114,7 @@ public class BookingActions {
         rumi.clicksOn(offersPage.filterPriceSaveButton);
     }
 
-    public void choosesMoreFilterOptions(String numBaths, String airConYesNo, String hotTubeYesNo)
-            throws InterruptedException {
+    public void choosesMoreFilterOptions(String numBaths, String airConYesNo, String hotTubeYesNo) {
 
         rumi.clicksOn(offersPage.filterMoreOptionsButton);
         WebElementFacade airConBox = offersPage.airConditionerCheckbox;
@@ -158,14 +137,14 @@ public class BookingActions {
         }
 
         rumi.clicksOn(offersPage.filterMoreOptionsSaveButton);
+        offersPage.waitForRenderedElementsToDisappear(MORE_FILTERS_ZERO_TIMING);
     }
 
     @Step
-    public void checksSummaryDates() throws InterruptedException {
+    public void checksSummaryDates() {
 
         ArrayList<String> newTab = new ArrayList<String>(driver.getWindowHandles());
         driver.switchTo().window(newTab.get(1));
-        Thread.sleep(2000);
         rumi.movesPointerToElement(summaryPage.totalPrice);
 
         String actualStartDate = summaryPage.checkInDate.getText().trim();
@@ -244,7 +223,7 @@ public class BookingActions {
     }
 
     @Step
-    public void searchesForSuitablePlace(String starRating) throws InterruptedException {
+    public void searchesForSuitablePlace(float starRating) {
 
         Actions actions = new Actions(driver);
         String loopElement = "";
@@ -263,7 +242,7 @@ public class BookingActions {
                 loopElement = listOfStarsPrices.get(i).getText().trim().substring(0, 3);
                 System.out.println("Element(" + i + ") = " + loopElement);
 
-                if (loopElement.equals(starRating.trim())) {
+                if (loopElement.matches("\\d.\\d") && (Float.parseFloat(loopElement) >= starRating) ) {
 
                     correctOfferFound = true;
                     rumi.movesPointerToElement(listOfStarsPrices.get(i + 1));

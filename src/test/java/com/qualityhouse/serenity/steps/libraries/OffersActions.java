@@ -2,15 +2,15 @@ package com.qualityhouse.serenity.steps.libraries;
 
 import com.qualityhouse.serenity.page_objects.OffersPage;
 import net.serenitybdd.core.pages.WebElementFacade;
+import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.Steps;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static com.qualityhouse.serenity.page_objects.OffersPage.OFFERS_SEARCH_RESULT_BUTTON_LIST_LOCATOR;
-import static com.qualityhouse.serenity.page_objects.OffersPage.OFFERS_SEARCH_RESULT_LAST_PAGE_LOCATOR;
+import static com.qualityhouse.serenity.page_objects.OffersPage.*;
 
-public class OfferspageActions {
+public class OffersActions {
 
     private OffersPage offersPage;
     @Steps
@@ -31,7 +31,7 @@ public class OfferspageActions {
         return  lastPageNumberString;
     }
 
-    public void clicksOnNextOffersResultPage() throws InterruptedException {
+    public void clicksOnNextOffersResultPage() {
 
         List<WebElementFacade> resultPaginationButtons =
                 offersPage.findAll(OFFERS_SEARCH_RESULT_BUTTON_LIST_LOCATOR);
@@ -41,6 +41,25 @@ public class OfferspageActions {
             rumi.clicksOn(resultPaginationButtons.get(lastIndexOfList));
         } catch (NoSuchElementException e) {
             System.out.println("Button 'Next-page' not found, no more offers to display");
+        }
+    }
+
+    @Step
+    public void picksCurrency(String targetCurrency) {
+
+        String loopElement = "";
+        rumi.movesPointerToElement(offersPage.currencyPickButton);
+        rumi.clicksOn(offersPage.currencyPickButton);
+        List<WebElementFacade> currencyPickList = offersPage.findAll(CURRENCY_PICK_LIST_LOCATOR);
+
+        for(int i = 0; i < currencyPickList.size(); i++) {
+
+            loopElement = currencyPickList.get(i).getText().toUpperCase().substring(0, 3);
+            System.out.println("current currency is: " +loopElement);
+            if(loopElement.equals(targetCurrency) ) {
+                rumi.clicksOn(currencyPickList.get(i) );
+                break;
+            }
         }
     }
 }

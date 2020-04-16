@@ -16,6 +16,7 @@ public class OffersPage extends PageObject {
     public final static By OFFERS_SEARCH_RESULT_LAST_PAGE_LOCATOR =
             By.cssSelector("nav [data-id=SearchResultsPagination] li a[aria-label^=Страница]");
     public final static String OFFERSPAGE_HEADING_TITLE = "Престои в района на ";
+    public final static By MORE_FILTERS_ZERO_TIMING = By.cssSelector("span._w37zq5[aria-label='Още филтри, 0 филтъра са приложени']");
 
     @FindBy(css = "h1._14i3z6h")
     public WebElementFacade offersHeadingInfoText;

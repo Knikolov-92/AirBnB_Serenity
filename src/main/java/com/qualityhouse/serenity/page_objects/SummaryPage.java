@@ -29,7 +29,7 @@ public class SummaryPage extends PageObject {
     @FindBy(css = "div .guest-label span[class^='guest-label__text guest-label__text-infants']")
     public WebElementFacade numberOfBabies;
 
-    @FindBy(css = "div ._ni9axhe ._121z06r2 ._j1kt73")
+    @FindBy(css = "div ._ni9axhe ._121z06r2 ._j1kt73, ._1d3ext9m")
     //@FindBy(css = "._j44qhm ._1d3ext9m")
     public WebElementFacade totalPrice;
 

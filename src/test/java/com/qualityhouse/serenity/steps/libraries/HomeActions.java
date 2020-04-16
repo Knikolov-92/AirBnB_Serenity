@@ -9,13 +9,13 @@ import java.util.List;
 
 import static com.qualityhouse.serenity.page_objects.HomePage.*;
 
-public class HomepageActions {
+public class HomeActions {
 
     private HomePage homePage;
     @Steps
     private BaseActions rumi;
 
-    public void selectsCheckInOutDate(String day, String month, String year) throws InterruptedException {
+    public void selectsCheckInOutDate(String day, String month, String year) {
 
         String expectedMonthYearInCalendar = month + " " + year;
         String actualCurrentMonthYearInCalendar;
